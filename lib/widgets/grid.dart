@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'dart:math' as math;
 
+typedef WrapBuilder = Widget Function(Widget child);
+
 class Grid extends MultiChildRenderObjectWidget {
   final double mainAxisSpacing;
 
@@ -362,6 +364,18 @@ class GridItem extends ParentDataWidget<GridParentData> {
 
   @override
   Type get debugTypicalAncestorWidgetClass => GridItem;
+
+  GridItem wrap({
+    required WrapBuilder builder,
+  }) {
+    return GridItem(
+      mainAxisCellCount: mainAxisCellCount,
+      crossAxisCellCount: crossAxisCellCount,
+      child: builder(
+        child,
+      ),
+    );
+  }
 }
 
 class _Origin {

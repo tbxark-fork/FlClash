@@ -66,9 +66,6 @@ class _ConnectionsFragmentState extends State<ConnectionsFragment> {
             },
             icon: const Icon(Icons.search),
           ),
-          const SizedBox(
-            width: 8,
-          ),
           IconButton(
             onPressed: () async {
               clashCore.closeConnections();

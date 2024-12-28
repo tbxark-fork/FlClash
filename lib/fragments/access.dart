@@ -104,11 +104,9 @@ class _AccessFragmentState extends State<AccessFragment> {
         showSheet(
           title: appLocalizations.proxiesSetting,
           context: context,
-          builder: (_) {
-            return AccessControlWidget(
-              context: context,
-            );
-          },
+          body: AccessControlWidget(
+            context: context,
+          ),
         );
       },
       icon: const Icon(Icons.tune),

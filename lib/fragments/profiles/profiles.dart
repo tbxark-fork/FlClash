@@ -102,7 +102,7 @@ class _ProfilesFragmentState extends State<ProfilesFragment> {
               showSheet(
                 title: appLocalizations.profilesSort,
                 context: context,
-                builder: (_) => SizedBox(
+                body: SizedBox(
                   height: 400,
                   child: ReorderableProfiles(profiles: profiles),
                 ),

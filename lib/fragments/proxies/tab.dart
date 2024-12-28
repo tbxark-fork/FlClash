@@ -62,49 +62,46 @@ class ProxiesTabFragmentState extends State<ProxiesTabFragment>
       context: context,
       width: 380,
       isScrollControlled: false,
-      builder: (context) {
-        return SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: Selector2<AppState, Config, ProxiesSelectorState>(
-            selector: (_, appState, config) {
-              final currentGroups = appState.currentGroups;
-              final groupNames = currentGroups.map((e) => e.name).toList();
-              return ProxiesSelectorState(
-                groupNames: groupNames,
-                currentGroupName: config.currentGroupName,
-              );
-            },
-            builder: (_, state, __) {
-              return SizedBox(
-                width: double.infinity,
-                child: Wrap(
-                  alignment: WrapAlignment.center,
-                  runSpacing: 8,
-                  spacing: 8,
-                  children: [
-                    for (final groupName in state.groupNames)
-                      SettingTextCard(
-                        groupName,
-                        onPressed: () {
-                          final index = state.groupNames
-                              .indexWhere((item) => item == groupName);
-                          if (index == -1) return;
-                          _tabController?.animateTo(index);
-                          globalState.appController.config
-                              .updateCurrentGroupName(
-                            groupName,
-                          );
-                          Navigator.of(context).pop();
-                        },
-                        isSelected: groupName == state.currentGroupName,
-                      )
-                  ],
-                ),
-              );
-            },
-          ),
-        );
-      },
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Selector2<AppState, Config, ProxiesSelectorState>(
+          selector: (_, appState, config) {
+            final currentGroups = appState.currentGroups;
+            final groupNames = currentGroups.map((e) => e.name).toList();
+            return ProxiesSelectorState(
+              groupNames: groupNames,
+              currentGroupName: config.currentGroupName,
+            );
+          },
+          builder: (_, state, __) {
+            return SizedBox(
+              width: double.infinity,
+              child: Wrap(
+                alignment: WrapAlignment.center,
+                runSpacing: 8,
+                spacing: 8,
+                children: [
+                  for (final groupName in state.groupNames)
+                    SettingTextCard(
+                      groupName,
+                      onPressed: () {
+                        final index = state.groupNames
+                            .indexWhere((item) => item == groupName);
+                        if (index == -1) return;
+                        _tabController?.animateTo(index);
+                        globalState.appController.config.updateCurrentGroupName(
+                          groupName,
+                        );
+                        Navigator.of(context).pop();
+                      },
+                      isSelected: groupName == state.currentGroupName,
+                    )
+                ],
+              ),
+            );
+          },
+        ),
+      ),
       title: appLocalizations.proxyGroup,
     );
   }

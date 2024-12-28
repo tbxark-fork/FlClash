@@ -4,9 +4,9 @@ import 'dart:math';
 import 'package:defer_pointer/defer_pointer.dart';
 import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/enum/enum.dart';
-import 'package:fl_clash/fragments/dashboard/widgets/network_speed.dart';
 import 'package:fl_clash/widgets/card.dart';
 import 'package:fl_clash/widgets/grid.dart';
+import 'package:fl_clash/widgets/sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 
@@ -88,6 +88,20 @@ class SuperGridState extends State<SuperGrid> with TickerProviderStateMixin {
             _parentOffset)
         .toList();
     _containerSize = context.size!;
+  }
+
+  showAddModal(List<GridItem> gridItems) {
+    if (!isEditNotifier.value) {
+      return;
+    }
+    showSheet(
+      width: 380,
+      context: context,
+      body: _AddWidgetsModal(
+        items: gridItems,
+      ),
+      title: "添加组件",
+    );
   }
 
   _initState() {
@@ -642,6 +656,44 @@ class SuperGridState extends State<SuperGrid> with TickerProviderStateMixin {
   }
 }
 
+class _AddWidgetsModal extends StatelessWidget {
+  final List<GridItem> items;
+
+  const _AddWidgetsModal({
+    required this.items,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return DeferredPointerHandler(
+      child: SingleChildScrollView(
+        padding: EdgeInsets.all(
+          16,
+        ),
+        child: Grid(
+          crossAxisCount: 4,
+          crossAxisSpacing: 8,
+          mainAxisSpacing: 16,
+          children: items
+              .map(
+                (item) => item.wrap(
+                  builder: (child) {
+                    return _AddContainer(
+                      child: child,
+                      onAdd: () {
+
+                      },
+                    );
+                  },
+                ),
+              )
+              .toList(),
+        ),
+      ),
+    );
+  }
+}
+
 class _DeletableContainer extends StatefulWidget {
   final Widget child;
   final VoidCallback onDelete;
@@ -745,6 +797,72 @@ class _DeletableContainerState extends State<_DeletableContainer>
               ),
             ),
           )
+      ],
+    );
+  }
+}
+
+class _AddContainer extends StatefulWidget {
+  final Widget child;
+  final VoidCallback onAdd;
+
+  const _AddContainer({
+    required this.child,
+    required this.onAdd,
+  });
+
+  @override
+  State<_AddContainer> createState() => _AddContainerState();
+}
+
+class _AddContainerState extends State<_AddContainer> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(_AddContainer oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.child != widget.child) {}
+  }
+
+  _handleAdd() async {
+    widget.onAdd();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        IgnorePointer(
+          ignoring: true,
+          child: widget.child,
+        ),
+        Positioned(
+          top: -8,
+          right: -8,
+          child: DeferPointer(
+            child: SizedBox(
+              width: 24,
+              height: 24,
+              child: IconButton.filled(
+                iconSize: 20,
+                padding: EdgeInsets.all(2),
+                onPressed: _handleAdd,
+                icon: Icon(
+                  Icons.add,
+                ),
+              ),
+            ),
+          ),
+        )
       ],
     );
   }

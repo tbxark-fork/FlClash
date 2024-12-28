@@ -35,6 +35,34 @@ class _DashboardFragmentState extends State<DashboardFragment> {
           context.findAncestorStateOfType<CommonScaffoldState>();
       commonScaffoldState?.floatingActionButton = const StartButton();
       commonScaffoldState?.actions = [
+        ValueListenableBuilder(
+          valueListenable: key.currentState!.isEditNotifier,
+          builder: (_, isEdit, ___) {
+            if (!isEdit) {
+              return Container();
+            }
+            return IconButton(
+              onPressed: () {
+                final dashboardWidgets = globalState
+                    .appController.config.appSetting.dashboardWidgets;
+                final gridItems = DashboardWidget.values
+                    .where(
+                      (item) =>
+                          !dashboardWidgets.contains(item) &&
+                          item.platforms.contains(
+                            SupportPlatform.currentPlatform,
+                          ),
+                    )
+                    .map((item) => item.widget)
+                    .toList();
+                key.currentState!.showAddModal(gridItems);
+              },
+              icon: Icon(
+                Icons.add_circle,
+              ),
+            );
+          },
+        ),
         IconButton(
           icon: ValueListenableBuilder(
             valueListenable: key.currentState!.isEditNotifier,

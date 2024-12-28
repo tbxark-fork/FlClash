@@ -40,9 +40,6 @@ class _ProxiesFragmentState extends State<ProxiesFragment> {
               Icons.poll_outlined,
             ),
           ),
-          const SizedBox(
-            width: 8,
-          ),
         ],
         if (proxiesType == ProxiesType.tab) ...[
           IconButton(
@@ -53,9 +50,6 @@ class _ProxiesFragmentState extends State<ProxiesFragment> {
               Icons.adjust_outlined,
             ),
           ),
-          const SizedBox(
-            width: 8,
-          )
         ] else ...[
           IconButton(
             onPressed: () {
@@ -110,18 +104,13 @@ class _ProxiesFragmentState extends State<ProxiesFragment> {
               Icons.style_outlined,
             ),
           ),
-          const SizedBox(
-            width: 8,
-          )
         ],
         IconButton(
           onPressed: () {
             showSheet(
               title: appLocalizations.proxiesSetting,
               context: context,
-              builder: (context) {
-                return const ProxiesSetting();
-              },
+              body: const ProxiesSetting(),
             );
           },
           icon: const Icon(
