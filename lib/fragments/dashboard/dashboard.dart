@@ -43,19 +43,7 @@ class _DashboardFragmentState extends State<DashboardFragment> {
             }
             return IconButton(
               onPressed: () {
-                final dashboardWidgets = globalState
-                    .appController.config.appSetting.dashboardWidgets;
-                final gridItems = DashboardWidget.values
-                    .where(
-                      (item) =>
-                          !dashboardWidgets.contains(item) &&
-                          item.platforms.contains(
-                            SupportPlatform.currentPlatform,
-                          ),
-                    )
-                    .map((item) => item.widget)
-                    .toList();
-                key.currentState!.showAddModal(gridItems);
+                key.currentState!.showAddModal();
               },
               icon: Icon(
                 Icons.add_circle,
@@ -129,6 +117,18 @@ class _DashboardFragmentState extends State<DashboardFragment> {
                   config.appSetting = config.appSetting.copyWith(
                     dashboardWidgets: dashboardWidgets,
                   );
+                },
+                addedItemsBuilder: (girdItems) {
+                  return DashboardWidget.values
+                      .where(
+                        (item) =>
+                            !girdItems.contains(item.widget) &&
+                            item.platforms.contains(
+                              SupportPlatform.currentPlatform,
+                            ),
+                      )
+                      .map((item) => item.widget)
+                      .toList();
                 },
               );
             },

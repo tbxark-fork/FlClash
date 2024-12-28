@@ -18,6 +18,7 @@ class SuperGrid extends StatefulWidget {
   final double crossAxisSpacing;
   final int crossAxisCount;
   final void Function(List<GridItem> newChildren)? onSave;
+  final List<GridItem> Function(List<GridItem> newChildren)? addedItemsBuilder;
 
   const SuperGrid({
     super.key,
@@ -26,6 +27,7 @@ class SuperGrid extends StatefulWidget {
     this.mainAxisSpacing = 0,
     this.crossAxisSpacing = 0,
     this.onSave,
+    this.addedItemsBuilder,
   });
 
   @override
@@ -34,6 +36,8 @@ class SuperGrid extends StatefulWidget {
 
 class SuperGridState extends State<SuperGrid> with TickerProviderStateMixin {
   final ValueNotifier<List<GridItem>> _childrenNotifier = ValueNotifier([]);
+  final ValueNotifier<List<GridItem>> _addedChildrenNotifier =
+      ValueNotifier([]);
 
   int get length => _childrenNotifier.value.length;
   List<int> _tempIndexList = [];
@@ -90,20 +94,25 @@ class SuperGridState extends State<SuperGrid> with TickerProviderStateMixin {
     _containerSize = context.size!;
   }
 
-  showAddModal(List<GridItem> gridItems) {
+  showAddModal() {
     if (!isEditNotifier.value) {
       return;
     }
     showSheet(
-      width: 380,
+      width: 460,
       context: context,
-      body: _AddWidgetsModal(
-        items: gridItems,
-        onAdd: (gridItem) {
-          _childrenNotifier.value = List.from(_childrenNotifier.value)
-            ..add(
-              gridItem,
-            );
+      body: ValueListenableBuilder(
+        valueListenable: _addedChildrenNotifier,
+        builder: (_, value, __) {
+          return _AddedWidgetsModal(
+            items: value,
+            onAdd: (gridItem) {
+              _childrenNotifier.value = List.from(_childrenNotifier.value)
+                ..add(
+                  gridItem,
+                );
+            },
+          );
         },
       ),
       title: "添加组件",
@@ -125,10 +134,18 @@ class SuperGridState extends State<SuperGrid> with TickerProviderStateMixin {
     _targetIndex = -1;
   }
 
+  _handleChildrenNotifierChange() {
+    _addedChildrenNotifier.value = widget.addedItemsBuilder != null
+        ? widget.addedItemsBuilder!(_childrenNotifier.value)
+        : [];
+  }
+
   @override
   void initState() {
     super.initState();
     _childrenNotifier.value = widget.children;
+
+    _childrenNotifier.addListener(_handleChildrenNotifierChange);
 
     isEditNotifier.addListener(_handleIsEditChange);
 
@@ -627,6 +644,7 @@ class SuperGridState extends State<SuperGrid> with TickerProviderStateMixin {
     _transformController.dispose();
     _dragIndexNotifier.dispose();
     _animating.dispose();
+    _childrenNotifier.removeListener(_handleChildrenNotifierChange);
     _childrenNotifier.dispose();
     isEditNotifier.removeListener(_handleIsEditChange);
     isEditNotifier.dispose();
@@ -662,11 +680,11 @@ class SuperGridState extends State<SuperGrid> with TickerProviderStateMixin {
   }
 }
 
-class _AddWidgetsModal extends StatelessWidget {
+class _AddedWidgetsModal extends StatelessWidget {
   final List<GridItem> items;
   final Function(GridItem item) onAdd;
 
-  const _AddWidgetsModal({
+  const _AddedWidgetsModal({
     required this.items,
     required this.onAdd,
   });
@@ -679,14 +697,14 @@ class _AddWidgetsModal extends StatelessWidget {
           16,
         ),
         child: Grid(
-          crossAxisCount: 4,
-          crossAxisSpacing: 8,
+          crossAxisCount: 8,
+          crossAxisSpacing: 16,
           mainAxisSpacing: 16,
           children: items
               .map(
                 (item) => item.wrap(
                   builder: (child) {
-                    return _AddContainer(
+                    return _AddedContainer(
                       onAdd: () {
                         onAdd(item);
                       },
@@ -810,27 +828,27 @@ class _DeletableContainerState extends State<_DeletableContainer>
   }
 }
 
-class _AddContainer extends StatefulWidget {
+class _AddedContainer extends StatefulWidget {
   final Widget child;
   final VoidCallback onAdd;
 
-  const _AddContainer({
+  const _AddedContainer({
     required this.child,
     required this.onAdd,
   });
 
   @override
-  State<_AddContainer> createState() => _AddContainerState();
+  State<_AddedContainer> createState() => _AddedContainerState();
 }
 
-class _AddContainerState extends State<_AddContainer> {
+class _AddedContainerState extends State<_AddedContainer> {
   @override
   void initState() {
     super.initState();
   }
 
   @override
-  void didUpdateWidget(_AddContainer oldWidget) {
+  void didUpdateWidget(_AddedContainer oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.child != widget.child) {}
   }
