@@ -99,6 +99,12 @@ class SuperGridState extends State<SuperGrid> with TickerProviderStateMixin {
       context: context,
       body: _AddWidgetsModal(
         items: gridItems,
+        onAdd: (gridItem) {
+          _childrenNotifier.value = List.from(_childrenNotifier.value)
+            ..add(
+              gridItem,
+            );
+        },
       ),
       title: "添加组件",
     );
@@ -658,9 +664,11 @@ class SuperGridState extends State<SuperGrid> with TickerProviderStateMixin {
 
 class _AddWidgetsModal extends StatelessWidget {
   final List<GridItem> items;
+  final Function(GridItem item) onAdd;
 
   const _AddWidgetsModal({
     required this.items,
+    required this.onAdd,
   });
 
   @override
@@ -679,10 +687,10 @@ class _AddWidgetsModal extends StatelessWidget {
                 (item) => item.wrap(
                   builder: (child) {
                     return _AddContainer(
-                      child: child,
                       onAdd: () {
-
+                        onAdd(item);
                       },
+                      child: child,
                     );
                   },
                 ),

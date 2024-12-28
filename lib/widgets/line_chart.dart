@@ -19,9 +19,11 @@ class LineChart extends StatefulWidget {
   final Color color;
   final double height;
   final Duration duration;
+  final bool gradient;
 
   const LineChart({
     super.key,
+    this.gradient = true,
     required this.points,
     required this.color,
     this.duration = const Duration(milliseconds: 0),
@@ -73,7 +75,7 @@ class _LineChartState extends State<LineChart>
     double minX = points[0].x;
     double maxY = points[0].y;
     double minY = points[0].y;
-    for (var point in points) {
+    for (final point in points) {
       if (point.x > maxX) maxX = point.x;
       if (point.x < minX) minX = point.x;
       if (point.y > maxY) maxY = point.y;
@@ -127,8 +129,10 @@ class _LineChartState extends State<LineChart>
       final midX = (currentPoint.x + nextPoint.x) / 2;
       final midY = (currentPoint.y + nextPoint.y) / 2;
       path.quadraticBezierTo(
-        currentPoint.x * size.width, (1 - currentPoint.y) * size.height,
-        midX * size.width, (1 - midY) * size.height,
+        currentPoint.x * size.width,
+        (1 - currentPoint.y) * size.height,
+        midX * size.width,
+        (1 - midY) * size.height,
       );
     }
     path.lineTo(points.last.x * size.width, (1 - points.last.y) * size.height);
@@ -169,6 +173,7 @@ class _LineChartState extends State<LineChart>
         builder: (_, __) {
           return CustomPaint(
             painter: LineChartPainter(
+              gradient: widget.gradient,
               color: widget.color,
               computedPath: getComputedPath(
                 prevPoints: prevPoints,
@@ -188,20 +193,50 @@ class _LineChartState extends State<LineChart>
 class LineChartPainter extends CustomPainter {
   final ComputedPath computedPath;
   final Color color;
+  final bool gradient;
 
   LineChartPainter({
     required this.computedPath,
     required this.color,
+    required this.gradient,
   });
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
+    final path = computedPath(size);
+
+    if(gradient){
+      final fillPath = Path.from(path);
+      fillPath.lineTo(size.width, size.height);
+      fillPath.lineTo(0, size.height);
+      fillPath.close();
+
+      final gradient = LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          color.withOpacity(0.5),
+          color.withOpacity(0),
+        ],
+      );
+
+      final shader = gradient.createShader(
+        Rect.fromLTWH(0, 0, size.width, size.height),
+      );
+
+      final fillPaint = Paint()
+        ..shader = shader
+        ..style = PaintingStyle.fill;
+
+      canvas.drawPath(fillPath, fillPaint);
+    }
+
+    final linePaint = Paint()
       ..color = color
       ..strokeWidth = 2.0
       ..style = PaintingStyle.stroke;
 
-    canvas.drawPath(computedPath(size), paint);
+    canvas.drawPath(path, linePaint);
   }
 
   @override
