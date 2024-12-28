@@ -205,7 +205,7 @@ class LineChartPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final path = computedPath(size);
 
-    if(gradient){
+    if (gradient) {
       final fillPath = Path.from(path);
       fillPath.lineTo(size.width, size.height);
       fillPath.lineTo(0, size.height);
@@ -216,7 +216,7 @@ class LineChartPainter extends CustomPainter {
         end: Alignment.bottomCenter,
         colors: [
           color.withOpacity(0.5),
-          color.withOpacity(0),
+          color.withOpacity(0.0),
         ],
       );
 
