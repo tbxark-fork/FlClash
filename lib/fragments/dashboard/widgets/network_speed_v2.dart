@@ -6,14 +6,14 @@ import 'package:fl_clash/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class NetworkSpeed extends StatefulWidget {
-  const NetworkSpeed({super.key});
+class NetworkSpeedV2 extends StatefulWidget {
+  const NetworkSpeedV2({super.key});
 
   @override
-  State<NetworkSpeed> createState() => _NetworkSpeedState();
+  State<NetworkSpeedV2> createState() => _NetworkSpeedV2State();
 }
 
-class _NetworkSpeedState extends State<NetworkSpeed> {
+class _NetworkSpeedV2State extends State<NetworkSpeedV2> {
   List<Point> initPoints = const [Point(0, 0), Point(1, 0)];
 
   List<Point> _getPoints(List<Traffic> traffics) {
@@ -119,7 +119,7 @@ class _NetworkSpeedState extends State<NetworkSpeed> {
                         height: 80,
                       ),
                       Text(
-                        "上传 100MB",
+                        "上传 85.61KB",
                         maxLines: 1,
                         style: TextStyle(
                           fontSize: 10,
@@ -130,7 +130,7 @@ class _NetworkSpeedState extends State<NetworkSpeed> {
                         height: 8,
                       ),
                       Text(
-                        "下载 100MB",
+                        "下载 72.61MB",
                         maxLines: 1,
                         style: TextStyle(
                           fontSize: 10,

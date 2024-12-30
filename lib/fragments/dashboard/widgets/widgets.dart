@@ -4,3 +4,4 @@ export 'network_speed.dart';
 export 'outbound_mode.dart';
 export 'status_button.dart';
 export 'traffic_usage.dart';
+export 'network_speed_v2.dart';
