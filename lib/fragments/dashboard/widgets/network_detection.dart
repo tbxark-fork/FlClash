@@ -190,7 +190,7 @@ class _NetworkDetectionState extends State<NetworkDetection> {
                                   text: Text(
                                     ipInfo.ip,
                                     style: context.textTheme.titleLarge
-                                        ?.toSoftBold.toMinus,
+                                        ?.toSoftBold.toMinus.toLight,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
@@ -205,7 +205,8 @@ class _NetworkDetectionState extends State<NetworkDetection> {
                                     style: context.textTheme.titleLarge
                                         ?.copyWith(color: Colors.red)
                                         .toSoftBold
-                                        .toMinus,
+                                        .toMinus
+                                        .toLight,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   )

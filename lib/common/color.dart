@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 extension ColorExtension on Color {
   toLight() {
-    return withOpacity(0.9);
+    return withOpacity(0.8);
   }
 
   toLighter() {
-    return withOpacity(0.4);
+    return withOpacity(0.6);
   }
 
   toSoft() {
