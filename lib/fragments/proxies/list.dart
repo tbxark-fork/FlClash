@@ -555,7 +555,7 @@ class _ListHeaderState extends State<ListHeader>
                     onPressed: () {
                       widget.onScrollToSelected(groupName);
                     },
-                    icon: const CommonIcon(
+                    icon: const Icon(
                       Icons.adjust,
                     ),
                   ),
@@ -563,7 +563,7 @@ class _ListHeaderState extends State<ListHeader>
                     onPressed: () {
                       _delayTest(widget.group.all);
                     },
-                    icon: const CommonIcon(
+                    icon: const Icon(
                       Icons.network_ping,
                     ),
                   ),
@@ -580,7 +580,7 @@ class _ListHeaderState extends State<ListHeader>
                       },
                       icon: RotationTransition(
                         turns: _iconTurns,
-                        child: const CommonIcon(
+                        child: const Icon(
                           Icons.expand_more,
                         ),
                       ),

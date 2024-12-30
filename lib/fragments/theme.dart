@@ -36,7 +36,7 @@ class ThemeFragment extends StatelessWidget {
   Widget build(BuildContext context) {
     final previewCard = Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: CommonCard(
+      child: CommonCard.info(
         onPressed: () {},
         info: Info(
           label: appLocalizations.preview,

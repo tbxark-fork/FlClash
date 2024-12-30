@@ -50,7 +50,7 @@ class TrafficUsage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CommonCard(
+    return CommonCard.info(
       onPressed: () {},
       info: Info(
         label: appLocalizations.trafficUsage,
@@ -62,7 +62,9 @@ class TrafficUsage extends StatelessWidget {
           final upTotalTrafficValue = totalTraffic.up;
           final downTotalTrafficValue = totalTraffic.down;
           return Padding(
-            padding: const EdgeInsets.all(16).copyWith(top: 0),
+            padding: const EdgeInsets.all(16).copyWith(
+              top: 12,
+            ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [

@@ -15,6 +15,7 @@ const packageName = "com.follow.clash";
 final unixSocketPath = "/tmp/FlClashSocket_${Random().nextInt(10000)}.sock";
 const helperPort = 47890;
 const helperTag = "2024125";
+const baseInfoEdgeInsets = EdgeInsets.all(16);
 const httpTimeoutDuration = Duration(milliseconds: 5000);
 const moreDuration = Duration(milliseconds: 100);
 const animateDuration = Duration(milliseconds: 100);

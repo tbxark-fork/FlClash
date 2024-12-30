@@ -12,7 +12,7 @@ class CoreInfo extends StatelessWidget {
     return Selector<AppState, VersionInfo?>(
       selector: (_, appState) => appState.versionInfo,
       builder: (_, versionInfo, __) {
-        return CommonCard(
+        return CommonCard.info(
           onPressed: () {},
           info: Info(
             label: appLocalizations.coreInfo,

@@ -10,47 +10,49 @@ class IntranetIP extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CommonCard(
+    return CommonCard.info(
       info: Info(
         label: appLocalizations.intranetIP,
         iconData: Icons.devices,
       ),
       onPressed: () {},
       child: Container(
-        padding: const EdgeInsets.all(16).copyWith(top: 0),
-        height: globalState.measure.titleMediumHeight + 24 - 2,
+        padding: baseInfoEdgeInsets.copyWith(
+          top: 12,
+        ),
+        height: globalState.measure.titleMediumHeight + 28 - 2,
         child: Selector<AppFlowingState, String?>(
           selector: (_, appFlowingState) => appFlowingState.localIp,
           builder: (_, value, __) {
             return FadeBox(
               child: value != null
                   ? Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Flexible(
-                    flex: 1,
-                    child: TooltipText(
-                      text: Text(
-                        value.isNotEmpty
-                            ? value
-                            : appLocalizations.noNetwork,
-                        style: context
-                            .textTheme.titleLarge?.toSoftBold.toMinus,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Flexible(
+                          flex: 1,
+                          child: TooltipText(
+                            text: Text(
+                              value.isNotEmpty
+                                  ? value
+                                  : appLocalizations.noNetwork,
+                              style: context
+                                  .textTheme.titleLarge?.toSoftBold.toMinus,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  : const Padding(
+                      padding: EdgeInsets.all(2),
+                      child: AspectRatio(
+                        aspectRatio: 1,
+                        child: CircularProgressIndicator(),
                       ),
                     ),
-                  ),
-                ],
-              )
-                  : const Padding(
-                padding: EdgeInsets.all(2),
-                child: AspectRatio(
-                  aspectRatio: 1,
-                  child: CircularProgressIndicator(),
-                ),
-              ),
             );
           },
         ),

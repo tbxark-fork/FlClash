@@ -83,7 +83,7 @@ class _CommonPopupMenuState<T> extends State<CommonPopupMenu<T>> {
                             ? Flexible(
                                 child: Container(
                                   margin: const EdgeInsets.only(right: 16),
-                                  child: CommonIcon(item.iconData),
+                                  child: Icon(item.iconData),
                                 ),
                               )
                             : Container(),

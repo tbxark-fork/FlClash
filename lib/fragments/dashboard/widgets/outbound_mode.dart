@@ -15,14 +15,16 @@ class OutboundMode extends StatelessWidget {
     return Selector<ClashConfig, Mode>(
       selector: (_, clashConfig) => clashConfig.mode,
       builder: (_, mode, __) {
-        return CommonCard(
+        return CommonCard.info(
           onPressed: () {},
           info: Info(
             label: appLocalizations.outboundMode,
-            iconData: Icons.call_split_sharp,
           ),
           child: Padding(
-            padding: const EdgeInsets.only(bottom: 16),
+            padding: const EdgeInsets.only(
+              top: 12,
+              bottom: 16,
+            ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,

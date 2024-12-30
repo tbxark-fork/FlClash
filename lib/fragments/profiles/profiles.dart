@@ -296,7 +296,7 @@ class ProfileItem extends StatelessWidget {
                     child: CircularProgressIndicator(),
                   )
                 : CommonPopupMenu<ProfileActions>(
-                    icon: CommonIcon(Icons.more_vert),
+                    icon: Icon(Icons.more_vert),
                     items: [
                       CommonPopupMenuItem(
                         action: ProfileActions.edit,

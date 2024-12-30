@@ -115,69 +115,69 @@ class _NetworkDetectionState extends State<NetworkDetection> {
         builder: (_, state, __) {
           final ipInfo = state.ipInfo;
           final isTesting = state.isTesting;
-          return CommonCard(
+          return CommonCard.info(
             onPressed: () {},
             child: Column(
               children: [
-                Flexible(
-                  flex: 0,
-                  child: Container(
-                    padding: const EdgeInsets.all(16),
-                    child: Row(
-                      children: [
-                        CommonIcon(
-                          Icons.network_check,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        Flexible(
-                          flex: 1,
-                          child: FadeBox(
-                            child: isTesting
-                                ? Text(
-                                    appLocalizations.checking,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style:
-                                        Theme.of(context).textTheme.titleMedium,
-                                  )
-                                : ipInfo != null
-                                    ? Container(
-                                        alignment: Alignment.centerLeft,
-                                        height: globalState
-                                            .measure.titleMediumHeight,
-                                        child: Text(
-                                          countryCodeToEmoji(
-                                              ipInfo.countryCode),
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleLarge
-                                              ?.copyWith(
-                                                fontFamily:
-                                                    FontFamily.twEmoji.value,
-                                              ),
-                                        ),
-                                      )
-                                    : Text(
-                                        appLocalizations.checkError,
+                Padding(
+                  padding: baseInfoEdgeInsets.copyWith(
+                    bottom: 0,
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.network_check,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      Flexible(
+                        flex: 1,
+                        child: FadeBox(
+                          child: isTesting
+                              ? Text(
+                                  appLocalizations.checking,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style:
+                                      Theme.of(context).textTheme.titleMedium,
+                                )
+                              : ipInfo != null
+                                  ? Container(
+                                      alignment: Alignment.centerLeft,
+                                      height:
+                                          globalState.measure.titleMediumHeight,
+                                      child: Text(
+                                        countryCodeToEmoji(ipInfo.countryCode),
                                         style: Theme.of(context)
                                             .textTheme
-                                            .titleMedium,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
+                                            .titleLarge
+                                            ?.copyWith(
+                                              fontFamily:
+                                                  FontFamily.twEmoji.value,
+                                            ),
                                       ),
-                          ),
+                                    )
+                                  : Text(
+                                      appLocalizations.checkError,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
                 Container(
-                  height: globalState.measure.titleLargeHeight + 24 - 2,
+                  height: globalState.measure.titleLargeHeight + 28 - 2,
                   alignment: Alignment.centerLeft,
-                  padding: const EdgeInsets.all(16).copyWith(top: 0),
+                  padding: baseInfoEdgeInsets.copyWith(
+                    top: 12,
+                  ),
                   child: FadeBox(
                     child: ipInfo != null
                         ? Column(
@@ -206,6 +206,86 @@ class _NetworkDetectionState extends State<NetworkDetection> {
                                         ?.copyWith(color: Colors.red)
                                         .toSoftBold
                                         .toMinus,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  )
+                                : Container(
+                                    padding: const EdgeInsets.all(2),
+                                    child: const AspectRatio(
+                                      aspectRatio: 1,
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                  ),
+                          ),
+                  ),
+                )
+              ],
+            ),
+          );
+
+          CommonCard(
+            type: CommonCardType.filled,
+            child: Column(
+              children: [
+                Container(
+                  alignment: Alignment.centerLeft,
+                  padding: const EdgeInsets.all(12).copyWith(
+                    bottom: 0,
+                  ),
+                  child: Text(
+                    "网络检测",
+                    maxLines: 1,
+                    textAlign: TextAlign.start,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                ),
+                Container(
+                  height: globalState.measure.titleMediumHeight + 20,
+                  alignment: Alignment.centerLeft,
+                  padding: const EdgeInsets.all(12).copyWith(
+                    top: 8,
+                  ),
+                  child: FadeBox(
+                    child: ipInfo != null
+                        ? SizedBox(
+                            height: globalState.measure.titleMediumHeight,
+                            child: Row(
+                              children: [
+                                Text(
+                                  countryCodeToEmoji(ipInfo.countryCode),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.toLight
+                                      .copyWith(
+                                        fontFamily: FontFamily.twEmoji.value,
+                                      ),
+                                ),
+                                SizedBox(
+                                  width: 8,
+                                ),
+                                Flexible(
+                                  flex: 1,
+                                  child: TooltipText(
+                                    text: Text(
+                                      ipInfo.ip,
+                                      style:
+                                          context.textTheme.bodyMedium?.toLight,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : FadeBox(
+                            child: isTesting == false && ipInfo == null
+                                ? Text(
+                                    "timeout",
+                                    style: context.textTheme.titleLarge
+                                        ?.copyWith(color: Colors.red),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   )

@@ -50,25 +50,3 @@ class CommonTargetIcon extends StatelessWidget {
     );
   }
 }
-
-class CommonIcon extends StatelessWidget {
-  final IconData? iconData;
-  final double size;
-  final Color? color;
-
-  const CommonIcon(
-    this.iconData, {
-    super.key,
-    this.size = 22,
-    this.color,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Icon(
-      iconData,
-      size: size,
-      color: color,
-    );
-  }
-}

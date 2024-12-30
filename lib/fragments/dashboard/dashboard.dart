@@ -1,20 +1,12 @@
 import 'dart:math';
 
-import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/enum/enum.dart';
-import 'package:fl_clash/fragments/dashboard/widgets/status_button.dart';
 import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import 'widgets/intranet_ip.dart';
-import 'widgets/network_detection.dart';
-import 'widgets/network_speed.dart';
-import 'widgets/outbound_mode.dart';
 import 'widgets/start_button.dart';
-import 'widgets/traffic_usage.dart';
 
 class DashboardFragment extends StatefulWidget {
   const DashboardFragment({super.key});
@@ -97,16 +89,17 @@ class _DashboardFragmentState extends State<DashboardFragment> {
                 crossAxisCount: columns,
                 crossAxisSpacing: 16,
                 mainAxisSpacing: 16,
-                children: state.dashboardWidgets
-                    .where(
-                      (item) => item.platforms.contains(
-                        SupportPlatform.currentPlatform,
+                children: [
+                  ...state.dashboardWidgets
+                      .where(
+                        (item) => item.platforms.contains(
+                          SupportPlatform.currentPlatform,
+                        ),
+                      )
+                      .map(
+                        (item) => item.widget,
                       ),
-                    )
-                    .map(
-                      (item) => item.widget,
-                    )
-                    .toList(),
+                ],
                 onSave: (girdItems) {
                   final dashboardWidgets = girdItems
                       .map(
