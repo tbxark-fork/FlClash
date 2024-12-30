@@ -84,7 +84,7 @@ class CommonCard extends StatelessWidget {
   const CommonCard({
     super.key,
     bool? isSelected,
-    this.type = CommonCardType.plain,
+    this.type = CommonCardType.filled,
     this.onPressed,
     this.color,
     this.selectWidget,
@@ -96,7 +96,7 @@ class CommonCard extends StatelessWidget {
   const CommonCard.info({
     super.key,
     bool? isSelected,
-    this.type = CommonCardType.plain,
+    this.type = CommonCardType.filled,
     this.onPressed,
     this.info,
     this.color,
