@@ -115,6 +115,10 @@ class ButtonContainer extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           InfoHeader(
+            padding: EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 8,
+            ),
             info: info,
             actions: [
               child,
