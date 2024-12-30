@@ -23,7 +23,7 @@ class LineChart extends StatefulWidget {
 
   const LineChart({
     super.key,
-    this.gradient = true,
+    this.gradient = false,
     required this.points,
     required this.color,
     this.duration = const Duration(milliseconds: 0),
