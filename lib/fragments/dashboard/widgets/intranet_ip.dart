@@ -10,51 +10,52 @@ class IntranetIP extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CommonCard.info(
-      info: Info(
-        label: appLocalizations.intranetIP,
-        iconData: Icons.devices,
-      ),
-      onPressed: () {},
-      child: Container(
-        padding: baseInfoEdgeInsets.copyWith(
-          top: 12,
+    return SizedBox(
+      height: getWidgetHeight(1),
+      child: CommonCard.info(
+        info: Info(
+          label: appLocalizations.intranetIP,
+          iconData: Icons.devices,
         ),
-        height: globalState.measure.titleMediumHeight + 28 - 2,
-        child: Selector<AppFlowingState, String?>(
-          selector: (_, appFlowingState) => appFlowingState.localIp,
-          builder: (_, value, __) {
-            return FadeBox(
-              child: value != null
-                  ? Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Flexible(
-                          flex: 1,
-                          child: TooltipText(
-                            text: Text(
-                              value.isNotEmpty
-                                  ? value
-                                  : appLocalizations.noNetwork,
-                              style: context
-                                  .textTheme.titleLarge?.toSoftBold.toMinus,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+        onPressed: () {},
+        child: Container(
+          padding: baseInfoEdgeInsets.copyWith(
+            top: 0,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              SizedBox(
+                height: globalState.measure.bodyMediumHeight,
+                child: Selector<AppFlowingState, String?>(
+                  selector: (_, appFlowingState) => appFlowingState.localIp,
+                  builder: (_, value, __) {
+                    return FadeBox(
+                      child: value != null
+                          ? TooltipText(
+                              text: Text(
+                                value.isNotEmpty
+                                    ? value
+                                    : appLocalizations.noNetwork,
+                                style: context.textTheme.bodyMedium?.toLight,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            )
+                          : Container(
+                              padding: EdgeInsets.all(2),
+                              child: AspectRatio(
+                                aspectRatio: 1,
+                                child: CircularProgressIndicator(),
+                              ),
                             ),
-                          ),
-                        ),
-                      ],
-                    )
-                  : const Padding(
-                      padding: EdgeInsets.all(2),
-                      child: AspectRatio(
-                        aspectRatio: 1,
-                        child: CircularProgressIndicator(),
-                      ),
-                    ),
-            );
-          },
+                    );
+                  },
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

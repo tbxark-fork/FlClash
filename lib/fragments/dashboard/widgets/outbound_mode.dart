@@ -23,8 +23,8 @@ class OutboundMode extends StatelessWidget {
           ),
           child: Padding(
             padding: const EdgeInsets.only(
-              top: 12,
-              bottom: 16,
+              top: 8,
+              bottom: 12,
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -38,8 +38,8 @@ class OutboundMode extends StatelessWidget {
                     padding: const EdgeInsets.only(
                       left: 12,
                       right: 16,
-                      top: 8,
-                      bottom: 8,
+                      top: 4,
+                      bottom: 4,
                     ),
                     delegate: RadioDelegate(
                       value: item,
@@ -53,8 +53,7 @@ class OutboundMode extends StatelessWidget {
                     ),
                     title: Text(
                       Intl.message(item.name),
-                      style:
-                          Theme.of(context).textTheme.titleMedium?.toSoftBold,
+                      style: Theme.of(context).textTheme.bodyMedium?.toSoftBold,
                     ),
                   ),
               ],

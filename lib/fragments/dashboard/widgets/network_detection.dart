@@ -109,201 +109,113 @@ class _NetworkDetectionState extends State<NetworkDetection> {
 
   @override
   Widget build(BuildContext context) {
-    return _checkIpContainer(
-      ValueListenableBuilder<NetworkDetectionState>(
-        valueListenable: networkDetectionState,
-        builder: (_, state, __) {
-          final ipInfo = state.ipInfo;
-          final isTesting = state.isTesting;
-          return CommonCard.info(
-            onPressed: () {},
-            child: Column(
-              children: [
-                Padding(
-                  padding: baseInfoEdgeInsets.copyWith(
-                    bottom: 0,
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.network_check,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      Flexible(
-                        flex: 1,
-                        child: FadeBox(
-                          child: isTesting
-                              ? Text(
-                                  appLocalizations.checking,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style:
-                                      Theme.of(context).textTheme.titleMedium,
-                                )
-                              : ipInfo != null
-                                  ? Container(
-                                      alignment: Alignment.centerLeft,
-                                      height:
-                                          globalState.measure.titleMediumHeight,
-                                      child: Text(
-                                        countryCodeToEmoji(ipInfo.countryCode),
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleLarge
-                                            ?.copyWith(
-                                              fontFamily:
-                                                  FontFamily.twEmoji.value,
-                                            ),
+    return SizedBox(
+      height: getWidgetHeight(1),
+      child: _checkIpContainer(
+        ValueListenableBuilder<NetworkDetectionState>(
+          valueListenable: networkDetectionState,
+          builder: (_, state, __) {
+            final ipInfo = state.ipInfo;
+            final isTesting = state.isTesting;
+            return CommonCard(
+              onPressed: () {},
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: baseInfoEdgeInsets.copyWith(
+                      bottom: 0,
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(
+                          flex: 1,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              ipInfo != null
+                                  ? Text(
+                                      countryCodeToEmoji(
+                                        ipInfo.countryCode,
                                       ),
-                                    )
-                                  : Text(
-                                      appLocalizations.checkError,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .titleMedium,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
+                                          .bodyLarge
+                                          ?.toLight
+                                          .copyWith(
+                                            fontFamily:
+                                                FontFamily.twEmoji.value,
+                                          ),
+                                    )
+                                  : Icon(
+                                      Icons.network_check,
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
                                     ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  height: globalState.measure.titleLargeHeight + 28 - 2,
-                  alignment: Alignment.centerLeft,
-                  padding: baseInfoEdgeInsets.copyWith(
-                    top: 12,
-                  ),
-                  child: FadeBox(
-                    child: ipInfo != null
-                        ? Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
+                              const SizedBox(
+                                width: 8,
+                              ),
                               Flexible(
                                 flex: 1,
                                 child: TooltipText(
                                   text: Text(
-                                    ipInfo.ip,
-                                    style: context.textTheme.titleLarge
-                                        ?.toSoftBold.toMinus.toLight,
+                                    "网络检测",
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
+                                    style:
+                                        Theme.of(context).textTheme.bodyMedium,
                                   ),
                                 ),
                               ),
                             ],
-                          )
-                        : FadeBox(
-                            child: isTesting == false && ipInfo == null
-                                ? Text(
-                                    "timeout",
-                                    style: context.textTheme.titleLarge
-                                        ?.copyWith(color: Colors.red)
-                                        .toSoftBold
-                                        .toMinus
-                                        .toLight,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  )
-                                : Container(
-                                    padding: const EdgeInsets.all(2),
-                                    child: const AspectRatio(
-                                      aspectRatio: 1,
-                                      child: CircularProgressIndicator(),
-                                    ),
-                                  ),
                           ),
+                        ),
+                      ],
+                    ),
                   ),
-                )
-              ],
-            ),
-          );
-
-          CommonCard(
-            type: CommonCardType.filled,
-            child: Column(
-              children: [
-                Container(
-                  alignment: Alignment.centerLeft,
-                  padding: const EdgeInsets.all(12).copyWith(
-                    bottom: 0,
-                  ),
-                  child: Text(
-                    "网络检测",
-                    maxLines: 1,
-                    textAlign: TextAlign.start,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                ),
-                Container(
-                  height: globalState.measure.titleMediumHeight + 20,
-                  alignment: Alignment.centerLeft,
-                  padding: const EdgeInsets.all(12).copyWith(
-                    top: 8,
-                  ),
-                  child: FadeBox(
-                    child: ipInfo != null
-                        ? SizedBox(
-                            height: globalState.measure.titleMediumHeight,
-                            child: Row(
-                              children: [
-                                Text(
-                                  countryCodeToEmoji(ipInfo.countryCode),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge
-                                      ?.toLight
-                                      .copyWith(
-                                        fontFamily: FontFamily.twEmoji.value,
-                                      ),
-                                ),
-                                SizedBox(
-                                  width: 8,
-                                ),
-                                Flexible(
-                                  flex: 1,
-                                  child: TooltipText(
-                                    text: Text(
-                                      ipInfo.ip,
-                                      style:
-                                          context.textTheme.bodyMedium?.toLight,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                  Container(
+                    padding: baseInfoEdgeInsets.copyWith(
+                      top: 0,
+                    ),
+                    child: SizedBox(
+                      height: globalState.measure.bodyMediumHeight,
+                      child: FadeBox(
+                        child: ipInfo != null
+                            ? TooltipText(
+                          text: Text(
+                            ipInfo.ip,
+                            style: context.textTheme.bodyMedium?.toLight,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        )
+                            : FadeBox(
+                          child: isTesting == false && ipInfo == null
+                              ? Text(
+                            "timeout",
+                            style: context.textTheme.titleMedium
+                                ?.copyWith(color: Colors.red),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          )
+                              : Container(
+                            padding: const EdgeInsets.all(2),
+                            child: const AspectRatio(
+                              aspectRatio: 1,
+                              child: CircularProgressIndicator(),
                             ),
-                          )
-                        : FadeBox(
-                            child: isTesting == false && ipInfo == null
-                                ? Text(
-                                    "timeout",
-                                    style: context.textTheme.titleLarge
-                                        ?.copyWith(color: Colors.red),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  )
-                                : Container(
-                                    padding: const EdgeInsets.all(2),
-                                    child: const AspectRatio(
-                                      aspectRatio: 1,
-                                      child: CircularProgressIndicator(),
-                                    ),
-                                  ),
                           ),
-                  ),
-                )
-              ],
-            ),
-          );
-        },
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }

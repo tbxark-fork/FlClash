@@ -59,44 +59,25 @@ class _NetworkSpeedState extends State<NetworkSpeed> {
       style: bodyMedium,
       maxLines: 1,
     );
-    final size = globalState.measure.computeTextSize(valueText);
-
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.max,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Flexible(
-          flex: 0,
-          child: Icon(
-            iconData,
-          ),
+        Icon(
+          iconData,
         ),
         SizedBox(
           width: 8,
         ),
+        Flexible(
+          child: valueText,
+        ),
         SizedBox(
-          width: size.width,
-          height: size.height,
-          child: OverflowBox(
-            maxWidth: 156,
-            alignment: Alignment.centerLeft,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Flexible(
-                  child: valueText,
-                ),
-                SizedBox(
-                  width: 4,
-                ),
-                Flexible(
-                  child: unitText,
-                ),
-              ],
-            ),
-          ),
-        )
+          width: 4,
+        ),
+        Flexible(
+          child: unitText,
+        ),
       ],
     );
   }
@@ -134,13 +115,18 @@ class _NetworkSpeedState extends State<NetworkSpeed> {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Expanded(
+                        flex: 1,
                         child: _getLabel(
                           iconData: Icons.upload,
                           label: appLocalizations.upload,
                           value: _getLastTraffic(traffics).up,
                         ),
                       ),
+                      SizedBox(
+                        width: 8,
+                      ),
                       Expanded(
+                        flex: 1,
                         child: _getLabel(
                           iconData: Icons.download,
                           label: appLocalizations.download,

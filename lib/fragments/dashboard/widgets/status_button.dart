@@ -28,7 +28,7 @@ class TUNButton extends StatelessWidget {
       },
       info: Info(
         label: appLocalizations.tun,
-        iconData: Icons.stacked_line_chart,
+        // iconData: Icons.stacked_line_chart,
       ),
       child: Selector<ClashConfig, bool>(
         selector: (_, clashConfig) => clashConfig.tun.enable,
@@ -72,7 +72,7 @@ class SystemProxyButton extends StatelessWidget {
       },
       info: Info(
         label: appLocalizations.systemProxy,
-        iconData: Icons.shuffle,
+        // iconData: Icons.shuffle,
       ),
       child: Selector<Config, bool>(
         selector: (_, config) => config.networkProps.systemProxy,

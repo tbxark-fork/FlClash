@@ -154,10 +154,12 @@ class _NetworkSpeedV2State extends State<NetworkSpeedV2> {
                         color: context.colorScheme.surfaceContainer,
                         child: Padding(
                           padding: const EdgeInsets.all(32),
-                          child: LineChart(
-                            color: Theme.of(context).colorScheme.primary,
-                            points: _getPoints(traffics),
+                          child: SizedBox(
                             height: 100,
+                            child: LineChart(
+                              color: Theme.of(context).colorScheme.primary,
+                              points: _getPoints(traffics),
+                            ),
                           ),
                         ),
                       ),
