@@ -12,55 +12,59 @@ class OutboundMode extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Selector<ClashConfig, Mode>(
-      selector: (_, clashConfig) => clashConfig.mode,
-      builder: (_, mode, __) {
-        return CommonCard.info(
-          onPressed: () {},
-          info: Info(
-            label: appLocalizations.outboundMode,
-            iconData: Icons.call_split_sharp,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.only(
-              top: 8,
-              bottom: 12,
+    return SizedBox(
+      height: getWidgetHeight(2.2),
+      child: Selector<ClashConfig, Mode>(
+        selector: (_, clashConfig) => clashConfig.mode,
+        builder: (_, mode, __) {
+          return CommonCard.info(
+            onPressed: () {},
+            info: Info(
+              label: appLocalizations.outboundMode,
+              iconData: Icons.call_split_sharp,
             ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                for (final item in Mode.values)
-                  ListItem.radio(
-                    horizontalTitleGap: 4,
-                    prue: true,
-                    padding: const EdgeInsets.only(
-                      left: 12,
-                      right: 16,
-                      top: 4,
-                      bottom: 4,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                top: 8,
+                bottom: 4,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  for (final item in Mode.values)
+                    ListItem.radio(
+                      horizontalTitleGap: 4,
+                      prue: true,
+                      padding: const EdgeInsets.only(
+                        left: 12,
+                        right: 16,
+                        top: 4,
+                        bottom: 4,
+                      ),
+                      delegate: RadioDelegate(
+                        value: item,
+                        groupValue: mode,
+                        onChanged: (value) async {
+                          if (value == null) {
+                            return;
+                          }
+                          globalState.appController.changeMode(value);
+                        },
+                      ),
+                      title: Text(
+                        Intl.message(item.name),
+                        style:
+                            Theme.of(context).textTheme.bodyMedium?.toSoftBold,
+                      ),
                     ),
-                    delegate: RadioDelegate(
-                      value: item,
-                      groupValue: mode,
-                      onChanged: (value) async {
-                        if (value == null) {
-                          return;
-                        }
-                        globalState.appController.changeMode(value);
-                      },
-                    ),
-                    title: Text(
-                      Intl.message(item.name),
-                      style: Theme.of(context).textTheme.bodyMedium?.toSoftBold,
-                    ),
-                  ),
-              ],
+                ],
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

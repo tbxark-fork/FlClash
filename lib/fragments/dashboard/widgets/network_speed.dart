@@ -84,34 +84,35 @@ class _NetworkSpeedState extends State<NetworkSpeed> {
 
   @override
   Widget build(BuildContext context) {
-    return CommonCard.info(
-      onPressed: () {},
-      info: Info(
-        label: appLocalizations.networkSpeed,
-        iconData: Icons.speed_sharp,
-      ),
-      child: Selector<AppFlowingState, List<Traffic>>(
-        selector: (_, appFlowingState) => appFlowingState.traffics,
-        builder: (_, traffics, __) {
-          return Container(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: 100,
-                  child: LineChart(
-                    color: Theme.of(context).colorScheme.primary,
-                    points: _getPoints(traffics),
+    return SizedBox(
+      height: getWidgetHeight(2.5),
+      child: CommonCard.info(
+        onPressed: () {},
+        info: Info(
+          label: appLocalizations.networkSpeed,
+          iconData: Icons.speed_sharp,
+        ),
+        child: Selector<AppFlowingState, List<Traffic>>(
+          selector: (_, appFlowingState) => appFlowingState.traffics,
+          builder: (_, traffics, __) {
+            return Container(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Flexible(
+                    child: SizedBox(
+                      child: LineChart(
+                        color: Theme.of(context).colorScheme.primary,
+                        points: _getPoints(traffics),
+                      ),
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 32,
-                ),
-                Flexible(
-                  flex: 0,
-                  child: Row(
+                  SizedBox(
+                    height: 32,
+                  ),
+                  Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Expanded(
@@ -135,11 +136,11 @@ class _NetworkSpeedState extends State<NetworkSpeed> {
                       ),
                     ],
                   ),
-                )
-              ],
-            ),
-          );
-        },
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
