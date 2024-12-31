@@ -118,12 +118,11 @@ class _NetworkSpeedState extends State<NetworkSpeed> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Expanded(
-                  flex: 0,
+                SizedBox(
+                  height: 100,
                   child: LineChart(
                     color: Theme.of(context).colorScheme.primary,
                     points: _getPoints(traffics),
-                    height: 100,
                   ),
                 ),
                 SizedBox(

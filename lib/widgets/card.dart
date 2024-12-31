@@ -84,7 +84,7 @@ class CommonCard extends StatelessWidget {
   const CommonCard({
     super.key,
     bool? isSelected,
-    this.type = CommonCardType.filled,
+    this.type = CommonCardType.plain,
     this.onPressed,
     this.color,
     this.selectWidget,
@@ -96,7 +96,7 @@ class CommonCard extends StatelessWidget {
   const CommonCard.info({
     super.key,
     bool? isSelected,
-    this.type = CommonCardType.filled,
+    this.type = CommonCardType.plain,
     this.onPressed,
     this.info,
     this.color,
@@ -150,10 +150,11 @@ class CommonCard extends StatelessWidget {
             ?.backgroundColor
             ?.resolve(states);
       case CommonCardType.filled:
+        final currentColor = color ?? colorScheme.surfaceContainer;
         if (isSelected) {
-          return colorScheme.surfaceContainer.adaptive();
+          return currentColor.adaptive();
         }
-        return color ?? colorScheme.surfaceContainer;
+        return currentColor;
     }
   }
 

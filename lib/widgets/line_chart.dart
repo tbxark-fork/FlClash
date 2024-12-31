@@ -17,7 +17,6 @@ class Point {
 class LineChart extends StatefulWidget {
   final List<Point> points;
   final Color color;
-  final double height;
   final Duration duration;
   final bool gradient;
 
@@ -27,7 +26,6 @@ class LineChart extends StatefulWidget {
     required this.points,
     required this.color,
     this.duration = const Duration(milliseconds: 0),
-    required this.height,
   });
 
   @override
@@ -168,7 +166,8 @@ class _LineChartState extends State<LineChart>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
+    return LayoutBuilder(builder: (_, container) {
+      return AnimatedBuilder(
         animation: _controller.view,
         builder: (_, __) {
           return CustomPaint(
@@ -182,11 +181,13 @@ class _LineChartState extends State<LineChart>
               ),
             ),
             child: SizedBox(
-              height: widget.height,
-              width: double.infinity,
+              height: container.maxHeight,
+              width: container.maxWidth,
             ),
           );
-        });
+        },
+      );
+    });
   }
 }
 

@@ -301,32 +301,29 @@ class SuperGridState extends State<SuperGrid> with TickerProviderStateMixin {
 
   _handleDragEnd(DraggableDetails details) async {
     debouncer.cancel(DebounceTag.handleWill);
-    final isAnimating = _transformController.isAnimating;
-    await _transformCompleter?.future;
     if (_targetIndex == -1) {
       return;
     }
+
+    const spring = SpringDescription(
+      mass: 1,
+      stiffness: 100,
+      damping: 10,
+    );
+    final simulation = SpringSimulation(spring, 0, 1, 0);
+    _fakeDragWidgetAnimation = Tween(
+      begin: details.offset - _parentOffset,
+      end: _targetOffset,
+    ).animate(_fakeDragWidgetController);
+    _animating.value = true;
+    await _fakeDragWidgetController.animateWith(simulation);
+    _animating.value = false;
+    _fakeDragWidgetAnimation = null;
     _transformTweenMap.clear();
     _transformAnimationMap.clear();
     final children = List<GridItem>.from(_childrenNotifier.value);
     children.insert(_targetIndex, children.removeAt(_dragIndexNotifier.value));
     _childrenNotifier.value = children;
-    if (!isAnimating) {
-      const spring = SpringDescription(
-        mass: 1,
-        stiffness: 100,
-        damping: 10,
-      );
-      final simulation = SpringSimulation(spring, 0, 1, 0);
-      _fakeDragWidgetAnimation = Tween(
-        begin: details.offset - _parentOffset,
-        end: _targetOffset,
-      ).animate(_fakeDragWidgetController);
-      _animating.value = true;
-      await _fakeDragWidgetController.animateWith(simulation);
-      _animating.value = false;
-      _fakeDragWidgetAnimation = null;
-    }
     _initState();
   }
 
@@ -380,13 +377,12 @@ class SuperGridState extends State<SuperGrid> with TickerProviderStateMixin {
       valueListenable: _animating,
       builder: (_, animating, child) {
         if (animating) {
-          if (_targetIndex == index) {
+          if (_dragIndexNotifier.value == index) {
             return _sizeBoxWrap(
               Container(),
               index,
             );
           }
-          return rawChild;
         }
         return child!;
       },
@@ -394,7 +390,7 @@ class SuperGridState extends State<SuperGrid> with TickerProviderStateMixin {
         builder: (_, child) {
           return Transform.translate(
             offset: _transformAnimationMap[index]?.value ?? Offset.zero,
-            child: child!,
+            child: child,
           );
         },
         animation: _transformController.view,
@@ -612,7 +608,7 @@ class SuperGridState extends State<SuperGrid> with TickerProviderStateMixin {
     return ValueListenableBuilder<bool>(
       valueListenable: _animating,
       builder: (_, animating, __) {
-        final index = _targetIndex;
+        final index = _dragIndexNotifier.value;
         if (!animating || _fakeDragWidgetAnimation == null || index == -1) {
           return Container();
         }
