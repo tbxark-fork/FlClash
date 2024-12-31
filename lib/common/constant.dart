@@ -16,7 +16,7 @@ final unixSocketPath = "/tmp/FlClashSocket_${Random().nextInt(10000)}.sock";
 const helperPort = 47890;
 const helperTag = "2024125";
 const baseInfoEdgeInsets = EdgeInsets.symmetric(
-  vertical: 12,
+  vertical: 16,
   horizontal: 16,
 );
 const httpTimeoutDuration = Duration(milliseconds: 5000);
@@ -86,5 +86,5 @@ const viewModeColumnsMap = {
 const defaultPrimaryColor = Colors.brown;
 
 double getWidgetHeight(num lines) {
-  return max(lines * 72 + (lines - 1) * 16, 0);
+  return max(lines * 80 + (lines - 1) * 16, 0);
 }
