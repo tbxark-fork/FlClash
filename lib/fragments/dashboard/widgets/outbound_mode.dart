@@ -13,7 +13,7 @@ class OutboundMode extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: getWidgetHeight(2.2),
+      height: getWidgetHeight(2.3),
       child: Selector<ClashConfig, Mode>(
         selector: (_, clashConfig) => clashConfig.mode,
         builder: (_, mode, __) {
@@ -25,8 +25,8 @@ class OutboundMode extends StatelessWidget {
             ),
             child: Padding(
               padding: const EdgeInsets.only(
-                top: 8,
-                bottom: 4,
+                top: 12,
+                bottom: 12,
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.max,

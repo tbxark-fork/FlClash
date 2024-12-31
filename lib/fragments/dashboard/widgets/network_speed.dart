@@ -85,7 +85,7 @@ class _NetworkSpeedState extends State<NetworkSpeed> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: getWidgetHeight(2.5),
+      height: getWidgetHeight(3),
       child: CommonCard.info(
         onPressed: () {},
         info: Info(
