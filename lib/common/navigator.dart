@@ -23,10 +23,6 @@ class CommonPageTransitionsBuilder extends PageTransitionsBuilder {
   const CommonPageTransitionsBuilder();
 
   @override
-  DelegatedTransitionBuilder? get delegatedTransition =>
-      CommonPageTransition.delegatedTransition;
-
-  @override
   Widget buildTransitions<T>(
     PageRoute<T> route,
     BuildContext context,
