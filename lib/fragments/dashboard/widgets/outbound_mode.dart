@@ -26,8 +26,8 @@ class OutboundMode extends StatelessWidget {
             ),
             child: Padding(
               padding: const EdgeInsets.only(
-                top: 12,
-                bottom: 12,
+                top: 16,
+                bottom: 16,
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
