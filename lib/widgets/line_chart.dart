@@ -204,8 +204,9 @@ class LineChartPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final path = computedPath(size);
     final strokeWidth = 2.0;
+    final path = computedPath(
+        Size(size.width, size.height - strokeWidth * 2));
 
     if (gradient) {
       final fillPath = Path.from(path);

@@ -39,49 +39,6 @@ class _NetworkSpeedState extends State<NetworkSpeed> {
     return traffics.last;
   }
 
-  Widget _getLabel({
-    required String label,
-    required IconData iconData,
-    required TrafficValue value,
-  }) {
-    final showValue = value.showValue;
-    final showUnit = "${value.showUnit}/s";
-    final titleLargeSoftBold =
-        Theme.of(context).textTheme.titleLarge?.toSoftBold;
-    final bodyMedium = Theme.of(context).textTheme.bodySmall?.toLight;
-    final valueText = Text(
-      showValue,
-      style: titleLargeSoftBold,
-      maxLines: 1,
-    );
-    final unitText = Text(
-      showUnit,
-      style: bodyMedium,
-      maxLines: 1,
-    );
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Icon(
-          iconData,
-        ),
-        SizedBox(
-          width: 8,
-        ),
-        Flexible(
-          child: valueText,
-        ),
-        SizedBox(
-          width: 4,
-        ),
-        Flexible(
-          child: unitText,
-        ),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -100,7 +57,9 @@ class _NetworkSpeedState extends State<NetworkSpeed> {
                 Positioned.fill(
                   child: Padding(
                     padding: EdgeInsets.all(16).copyWith(
-                      bottom: 24,
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
                     ),
                     child: LineChart(
                       gradient: true,
