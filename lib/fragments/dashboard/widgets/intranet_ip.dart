@@ -27,7 +27,7 @@ class IntranetIP extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               SizedBox(
-                height: globalState.measure.bodyMediumHeight,
+                height: globalState.measure.bodyMediumHeight + 2,
                 child: Selector<AppFlowingState, String?>(
                   selector: (_, appFlowingState) => appFlowingState.localIp,
                   builder: (_, value, __) {
@@ -38,7 +38,8 @@ class IntranetIP extends StatelessWidget {
                                 value.isNotEmpty
                                     ? value
                                     : appLocalizations.noNetwork,
-                                style: context.textTheme.bodyMedium?.toLight,
+                                style: context.textTheme.bodyMedium?.toLight
+                                    .adjustSize(1),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),

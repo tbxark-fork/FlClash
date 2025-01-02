@@ -122,54 +122,46 @@ class _NetworkDetectionState extends State<NetworkDetection> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Padding(
+                  Container(
+                    height: globalState.measure.titleMediumHeight + 16,
                     padding: baseInfoEdgeInsets.copyWith(
                       bottom: 0,
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        ipInfo != null
+                            ? Text(
+                          countryCodeToEmoji(
+                            ipInfo.countryCode,
+                          ),
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium
+                              ?.toLight
+                              .copyWith(
+                            fontFamily:
+                            FontFamily.twEmoji.value,
+                          ),
+                        )
+                            : Icon(
+                          Icons.network_check,
+                          color:
+                          Theme.of(context).colorScheme.primary,
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
                         Flexible(
                           flex: 1,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              ipInfo != null
-                                  ? Text(
-                                      countryCodeToEmoji(
-                                        ipInfo.countryCode,
-                                      ),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge
-                                          ?.toLight
-                                          .copyWith(
-                                            fontFamily:
-                                                FontFamily.twEmoji.value,
-                                          ),
-                                    )
-                                  : Icon(
-                                      Icons.network_check,
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                    ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              Flexible(
-                                flex: 1,
-                                child: TooltipText(
-                                  text: Text(
-                                    "网络检测",
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
-                                  ),
-                                ),
-                              ),
-                            ],
+                          child: TooltipText(
+                            text: Text(
+                              "网络检测",
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style:
+                              Theme.of(context).textTheme.bodyMedium,
+                            ),
                           ),
                         ),
                       ],
@@ -180,13 +172,14 @@ class _NetworkDetectionState extends State<NetworkDetection> {
                       top: 0,
                     ),
                     child: SizedBox(
-                      height: globalState.measure.bodyMediumHeight,
+                      height: globalState.measure.bodyMediumHeight + 2,
                       child: FadeBox(
                         child: ipInfo != null
                             ? TooltipText(
                                 text: Text(
                                   ipInfo.ip,
-                                  style: context.textTheme.bodyMedium?.toLight,
+                                  style: context.textTheme.bodyMedium?.toLight
+                                      .adjustSize(1),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -195,8 +188,9 @@ class _NetworkDetectionState extends State<NetworkDetection> {
                                 child: isTesting == false && ipInfo == null
                                     ? Text(
                                         "timeout",
-                                        style: context.textTheme.titleMedium
-                                            ?.copyWith(color: Colors.red),
+                                        style: context.textTheme.bodyMedium
+                                            ?.copyWith(color: Colors.red)
+                                            .adjustSize(1),
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                       )
