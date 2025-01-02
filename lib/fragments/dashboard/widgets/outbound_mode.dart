@@ -26,7 +26,7 @@ class OutboundMode extends StatelessWidget {
             ),
             child: Padding(
               padding: const EdgeInsets.only(
-                top: 16,
+                top: 12,
                 bottom: 16,
               ),
               child: Column(
@@ -37,6 +37,7 @@ class OutboundMode extends StatelessWidget {
                   for (final item in Mode.values)
                     Flexible(
                       child: ListItem.radio(
+                        prue: true,
                         horizontalTitleGap: 4,
                         padding: const EdgeInsets.only(
                           left: 12,
