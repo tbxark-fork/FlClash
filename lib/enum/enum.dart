@@ -239,6 +239,7 @@ enum ActionMethod {
   stopLog,
   startListener,
   stopListener,
+  getCountryCode,
 }
 
 enum AuthorizeCode { none, success, error }

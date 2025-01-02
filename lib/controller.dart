@@ -102,7 +102,7 @@ class AppController {
       appFlowingState.totalTraffic = Traffic();
       appFlowingState.runTime = null;
       await Future.delayed(
-        Duration(milliseconds: 600),
+        Duration(milliseconds: 1000),
       );
       addCheckIpNumDebounce();
     }

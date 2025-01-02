@@ -65,6 +65,7 @@ const (
 	closeConnectionMethod          Method = "closeConnection"
 	getExternalProvidersMethod     Method = "getExternalProviders"
 	getExternalProviderMethod      Method = "getExternalProvider"
+	getCountryCodeMethod           Method = "getCountryCode"
 	updateGeoDataMethod            Method = "updateGeoData"
 	updateExternalProviderMethod   Method = "updateExternalProvider"
 	sideLoadExternalProviderMethod Method = "sideLoadExternalProvider"

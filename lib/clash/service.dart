@@ -138,6 +138,7 @@ class ClashService with ClashInterface {
       case ActionMethod.updateGeoData:
       case ActionMethod.updateExternalProvider:
       case ActionMethod.sideLoadExternalProvider:
+      case ActionMethod.getCountryCode:
         completer?.complete(action.data as String);
         return;
       case ActionMethod.message:
@@ -159,6 +160,13 @@ class ClashService with ClashInterface {
     final id = "${method.name}#${other.id}";
     final socket = await socketCompleter.future;
     callbackCompleterMap[id] = Completer<T>();
+    print(json.encode(
+      Action(
+        id: id,
+        method: method,
+        data: data,
+      ),
+    ));
     socket.writeln(
       json.encode(
         Action(
@@ -407,6 +415,15 @@ class ClashService with ClashInterface {
     final server = await serverCompleter.future;
     await server.close();
     await _deleteSocketFile();
+  }
+
+  @override
+  FutureOr<String> getCountryCode(String ip) {
+    print(ip);
+    return _invoke<String>(
+      method: ActionMethod.getCountryCode,
+      data: "$ip",
+    );
   }
 }
 

@@ -8,6 +8,7 @@ import (
 	"github.com/metacubex/mihomo/adapter/outboundgroup"
 	"github.com/metacubex/mihomo/common/observable"
 	"github.com/metacubex/mihomo/common/utils"
+	"github.com/metacubex/mihomo/component/mmdb"
 	"github.com/metacubex/mihomo/component/updater"
 	"github.com/metacubex/mihomo/config"
 	"github.com/metacubex/mihomo/constant"
@@ -17,6 +18,7 @@ import (
 	"github.com/metacubex/mihomo/log"
 	"github.com/metacubex/mihomo/tunnel"
 	"github.com/metacubex/mihomo/tunnel/statistic"
+	"net"
 	"runtime"
 	"sort"
 	"time"
@@ -402,6 +404,19 @@ func handleStopLog() {
 		log.UnSubscribe(logSubscriber)
 		logSubscriber = nil
 	}
+}
+
+func handleGetCountryCode(ip string, fn func(value string)) {
+	go func() {
+		runLock.Lock()
+		defer runLock.Unlock()
+		codes := mmdb.IPInstance().LookupCode(net.ParseIP(ip))
+		if len(codes) == 0 {
+			fn("")
+			return
+		}
+		fn(codes[0])
+	}()
 }
 
 func init() {

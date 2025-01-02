@@ -161,6 +161,15 @@ func updateExternalProvider(providerNameChar *C.char, port C.longlong) {
 	})
 }
 
+//export getCountryCode
+func getCountryCode(ipChar *C.char, port C.longlong) {
+	ip := C.GoString(ipChar)
+	i := int64(port)
+	handleGetCountryCode(ip, func(value string) {
+		bridge.SendToPort(i, value)
+	})
+}
+
 //export sideLoadExternalProvider
 func sideLoadExternalProvider(providerNameChar *C.char, dataChar *C.char, port C.longlong) {
 	i := int64(port)
