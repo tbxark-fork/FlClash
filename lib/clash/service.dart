@@ -160,13 +160,6 @@ class ClashService with ClashInterface {
     final id = "${method.name}#${other.id}";
     final socket = await socketCompleter.future;
     callbackCompleterMap[id] = Completer<T>();
-    print(json.encode(
-      Action(
-        id: id,
-        method: method,
-        data: data,
-      ),
-    ));
     socket.writeln(
       json.encode(
         Action(
@@ -419,10 +412,9 @@ class ClashService with ClashInterface {
 
   @override
   FutureOr<String> getCountryCode(String ip) {
-    print(ip);
     return _invoke<String>(
       method: ActionMethod.getCountryCode,
-      data: "$ip",
+      data: ip,
     );
   }
 }

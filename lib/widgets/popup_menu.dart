@@ -1,4 +1,3 @@
-import 'package:fl_clash/widgets/icon.dart';
 import 'package:flutter/material.dart';
 
 class CommonPopupMenuItem<T> {
