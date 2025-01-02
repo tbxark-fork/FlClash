@@ -104,7 +104,7 @@ class TrafficUsage extends StatelessWidget {
                     upTotalTrafficValue,
                   ),
                   const SizedBox(
-                    height: 4,
+                    height: 8,
                   ),
                   getTrafficDataItem(
                     context,
