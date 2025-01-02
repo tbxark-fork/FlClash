@@ -10,9 +10,14 @@ class DonutChartData {
   const DonutChartData({
     required double value,
     required this.color,
-  }) : _value = value + 0.01;
+  }) : _value = value + 1;
 
   double get value => _value;
+
+  @override
+  String toString() {
+    return 'DonutChartData{_value: $_value}';
+  }
 }
 
 class DonutChart extends StatefulWidget {
@@ -29,7 +34,8 @@ class DonutChart extends StatefulWidget {
   State<DonutChart> createState() => _DonutChartState();
 }
 
-class _DonutChartState extends State<DonutChart> with SingleTickerProviderStateMixin {
+class _DonutChartState extends State<DonutChart>
+    with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late List<DonutChartData> _oldData;
 
@@ -40,7 +46,7 @@ class _DonutChartState extends State<DonutChart> with SingleTickerProviderStateM
     _animationController = AnimationController(
       vsync: this,
       duration: widget.duration,
-    )..forward();
+    );
   }
 
   @override
@@ -85,16 +91,18 @@ class DonutChartPainter extends CustomPainter {
   List<DonutChartData> get interpolatedData {
     if (oldData.length != newData.length) return newData;
 
-    return List.generate(newData.length, (index) {
+    final interpolatedData = List.generate(newData.length, (index) {
       final oldValue = oldData[index].value;
       final newValue = newData[index].value;
       final interpolatedValue = oldValue + (newValue - oldValue) * progress;
 
       return DonutChartData(
-        value: interpolatedValue,
-        color: Color.lerp(oldData[index].color, newData[index].color, progress)!,
+        value: sqrt(interpolatedValue),
+        color: newData[index].color,
       );
     });
+
+    return interpolatedData;
   }
 
   @override
@@ -103,17 +111,17 @@ class DonutChartPainter extends CustomPainter {
     const strokeWidth = 10.0;
     final radius = min(size.width / 2, size.height / 2) - strokeWidth / 2;
 
-    double gapAngle = 2 * asin(strokeWidth * 1 / (2 * radius)) * 1.2;
+    final gapAngle = 2 * asin(strokeWidth * 1 / (2 * radius)) * 1.2;
 
     final data = interpolatedData;
     final total = data.fold<double>(
       0,
-          (sum, item) => sum + item.value,
+      (sum, item) => sum + item.value,
     );
 
     final availableAngle = 2 * pi - (data.length * gapAngle);
 
-    double startAngle = -pi / 2;
+    double startAngle = -pi / 2 + gapAngle / 2;
 
     for (final item in data) {
       final sweepAngle = availableAngle * (item.value / total);

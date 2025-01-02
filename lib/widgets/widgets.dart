@@ -24,3 +24,4 @@ export 'side_sheet.dart';
 export 'subscription_info_view.dart';
 export 'text.dart';
 export 'super_grid.dart';
+export 'donut_chart.dart';

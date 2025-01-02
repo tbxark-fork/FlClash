@@ -1,7 +1,5 @@
 import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/models/models.dart';
-import 'package:fl_clash/state.dart';
-import 'package:fl_clash/widgets/dount_chart.dart';
 import 'package:fl_clash/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -74,23 +72,72 @@ class TrafficUsage extends StatelessWidget {
                   Flexible(
                     child: Container(
                       padding: EdgeInsets.symmetric(
-                        horizontal: 4,
                         vertical: 12,
                       ),
-                      child: AspectRatio(
-                        aspectRatio: 1,
-                        child: DonutChart(
-                          data: [
-                            DonutChartData(
-                              value: upTotalTrafficValue.value.toDouble(),
-                              color: context.colorScheme.primary,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          AspectRatio(
+                            aspectRatio: 1,
+                            child: DonutChart(
+                              data: [
+                                DonutChartData(
+                                  value: upTotalTrafficValue.value.toDouble(),
+                                  color: context.colorScheme.primary,
+                                ),
+                                DonutChartData(
+                                  value: downTotalTrafficValue.value.toDouble(),
+                                  color: context.colorScheme.tertiary,
+                                ),
+                              ],
                             ),
-                            DonutChartData(
-                              value: downTotalTrafficValue.value.toDouble(),
-                              color: context.colorScheme.tertiary,
-                            ),
-                          ],
-                        ),
+                          ),
+                          Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 20,
+                                    height: 8,
+                                    decoration: BoxDecoration(
+                                      color: context.colorScheme.primary,
+                                      borderRadius: BorderRadius.circular(2),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 4,
+                                  ),
+                                  Text(
+                                    appLocalizations.upload,
+                                    style: context.textTheme.bodySmall,
+                                  )
+                                ],
+                              ),
+                              SizedBox(
+                                height: 4,
+                              ),
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 20,
+                                    height: 8,
+                                    decoration: BoxDecoration(
+                                      color: context.colorScheme.tertiary,
+                                      borderRadius: BorderRadius.circular(2),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 4,
+                                  ),
+                                  Text(
+                                    appLocalizations.download,
+                                    style: context.textTheme.bodySmall,
+                                  )
+                                ],
+                              ),
+                            ],
+                          )
+                        ],
                       ),
                     ),
                   ),
