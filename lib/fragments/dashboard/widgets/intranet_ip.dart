@@ -12,7 +12,7 @@ class IntranetIP extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: getWidgetHeight(1),
-      child: CommonCard.info(
+      child: CommonCard(
         info: Info(
           label: appLocalizations.intranetIP,
           iconData: Icons.devices,

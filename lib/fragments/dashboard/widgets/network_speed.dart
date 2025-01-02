@@ -43,7 +43,7 @@ class _NetworkSpeedState extends State<NetworkSpeed> {
   Widget build(BuildContext context) {
     return SizedBox(
       height: getWidgetHeight(2),
-      child: CommonCard.info(
+      child: CommonCard(
         onPressed: () {},
         info: Info(
           label: appLocalizations.networkSpeed,

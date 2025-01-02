@@ -86,5 +86,5 @@ const viewModeColumnsMap = {
 const defaultPrimaryColor = Colors.brown;
 
 double getWidgetHeight(num lines) {
-  return max(lines * 96 + (lines - 1) * 16, 0);
+  return max(lines * 84 + (lines - 1) * 16, 0);
 }

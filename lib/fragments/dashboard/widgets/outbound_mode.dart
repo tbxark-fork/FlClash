@@ -18,7 +18,7 @@ class OutboundMode extends StatelessWidget {
       child: Selector<ClashConfig, Mode>(
         selector: (_, clashConfig) => clashConfig.mode,
         builder: (_, mode, __) {
-          return CommonCard.info(
+          return CommonCard(
             onPressed: () {},
             info: Info(
               label: appLocalizations.outboundMode,

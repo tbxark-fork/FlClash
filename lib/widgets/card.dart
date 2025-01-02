@@ -90,19 +90,7 @@ class CommonCard extends StatelessWidget {
     this.selectWidget,
     this.radius = 12,
     required this.child,
-  })  : isSelected = isSelected ?? false,
-        info = null;
-
-  const CommonCard.info({
-    super.key,
-    bool? isSelected,
-    this.type = CommonCardType.plain,
-    this.onPressed,
     this.info,
-    this.color,
-    this.selectWidget,
-    this.radius = 12,
-    required this.child,
   }) : isSelected = isSelected ?? false;
 
   final bool isSelected;

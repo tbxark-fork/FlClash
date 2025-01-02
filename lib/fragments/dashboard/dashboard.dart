@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:fl_clash/enum/enum.dart';
+import 'package:fl_clash/fragments/dashboard/widgets/quick_options.dart';
 import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/state.dart';
 import 'package:fl_clash/widgets/widgets.dart';

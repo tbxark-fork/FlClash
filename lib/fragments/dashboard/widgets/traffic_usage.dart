@@ -1,6 +1,7 @@
 import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/state.dart';
+import 'package:fl_clash/widgets/dount_chart.dart';
 import 'package:fl_clash/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +11,7 @@ class TrafficUsage extends StatelessWidget {
 
   Widget getTrafficDataItem(
     BuildContext context,
-    IconData iconData,
+    Icon icon,
     TrafficValue trafficValue,
   ) {
     return Row(
@@ -23,10 +24,7 @@ class TrafficUsage extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Icon(
-                iconData,
-                size: 14,
-              ),
+              icon,
               const SizedBox(
                 width: 8,
               ),
@@ -52,8 +50,8 @@ class TrafficUsage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: getWidgetHeight(1),
-      child: CommonCard.info(
+      height: getWidgetHeight(2),
+      child: CommonCard(
         info: Info(
           label: appLocalizations.trafficUsage,
           iconData: Icons.data_saver_off,
@@ -66,18 +64,43 @@ class TrafficUsage extends StatelessWidget {
             final downTotalTrafficValue = totalTraffic.down;
             return Padding(
               padding: baseInfoEdgeInsets.copyWith(
-                top: 4,
+                top: 0,
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Flexible(
-                    child: SizedBox(),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 4,
+                        vertical: 12,
+                      ),
+                      child: AspectRatio(
+                        aspectRatio: 1,
+                        child: DonutChart(
+                          data: [
+                            DonutChartData(
+                              value: upTotalTrafficValue.value.toDouble(),
+                              color: context.colorScheme.primary,
+                            ),
+                            DonutChartData(
+                              value: downTotalTrafficValue.value.toDouble(),
+                              color: context.colorScheme.tertiary,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                   getTrafficDataItem(
                     context,
-                    Icons.arrow_upward,
+                    Icon(
+                      Icons.arrow_upward,
+                      color: context.colorScheme.primary,
+                      size: 14,
+                    ),
                     upTotalTrafficValue,
                   ),
                   const SizedBox(
@@ -85,7 +108,11 @@ class TrafficUsage extends StatelessWidget {
                   ),
                   getTrafficDataItem(
                     context,
-                    Icons.arrow_downward,
+                    Icon(
+                      Icons.arrow_downward,
+                      color: context.colorScheme.tertiary,
+                      size: 14,
+                    ),
                     downTotalTrafficValue,
                   )
                 ],
