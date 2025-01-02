@@ -176,6 +176,7 @@ class SuperGridState extends State<SuperGrid> with TickerProviderStateMixin {
   }
 
   _handleIsEditChange() {
+    _handleChildrenNotifierChange();
     if (isEditNotifier.value == false) {
       if (widget.onSave != null) {
         widget.onSave!(_childrenNotifier.value);

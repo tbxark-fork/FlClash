@@ -28,28 +28,26 @@ class _DashboardFragmentState extends State<DashboardFragment> {
       commonScaffoldState?.floatingActionButton = const StartButton();
       commonScaffoldState?.actions = [
         ValueListenableBuilder(
-          valueListenable: key.currentState!.isEditNotifier,
-          builder: (_, isEdit, child) {
-            if (!isEdit) {
-              return Container();
-            }
-            return child!;
+          valueListenable: key.currentState!.addedChildrenNotifier,
+          builder: (_, addedChildren, child) {
+            return ValueListenableBuilder(
+              valueListenable: key.currentState!.isEditNotifier,
+              builder: (_, isEdit, child) {
+                if (!isEdit || addedChildren.isEmpty) {
+                  return Container();
+                }
+                return child!;
+              },
+              child: child,
+            );
           },
-          child: ValueListenableBuilder(
-            valueListenable: key.currentState!.addedChildrenNotifier,
-            builder: (_, addedChildren, ___) {
-              if (addedChildren.isEmpty) {
-                return Container();
-              }
-              return IconButton(
-                onPressed: () {
-                  key.currentState!.showAddModal();
-                },
-                icon: Icon(
-                  Icons.add_circle,
-                ),
-              );
+          child: IconButton(
+            onPressed: () {
+              key.currentState!.showAddModal();
             },
+            icon: Icon(
+              Icons.add_circle,
+            ),
           ),
         ),
         IconButton(

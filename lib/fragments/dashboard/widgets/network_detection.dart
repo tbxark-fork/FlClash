@@ -132,23 +132,21 @@ class _NetworkDetectionState extends State<NetworkDetection> {
                       children: [
                         ipInfo != null
                             ? Text(
-                          countryCodeToEmoji(
-                            ipInfo.countryCode,
-                          ),
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium
-                              ?.toLight
-                              .copyWith(
-                            fontFamily:
-                            FontFamily.twEmoji.value,
-                          ),
-                        )
+                                countryCodeToEmoji(
+                                  ipInfo.countryCode,
+                                ),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium
+                                    ?.toLight
+                                    .copyWith(
+                                      fontFamily: FontFamily.twEmoji.value,
+                                    ),
+                              )
                             : Icon(
-                          Icons.network_check,
-                          color:
-                          Theme.of(context).colorScheme.primary,
-                        ),
+                                Icons.network_check,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
                         const SizedBox(
                           width: 8,
                         ),
@@ -159,8 +157,7 @@ class _NetworkDetectionState extends State<NetworkDetection> {
                               "网络检测",
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style:
-                              Theme.of(context).textTheme.bodyMedium,
+                              style: Theme.of(context).textTheme.titleSmall,
                             ),
                           ),
                         ),
