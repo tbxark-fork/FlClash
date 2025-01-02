@@ -205,11 +205,12 @@ class LineChartPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final path = computedPath(size);
+    final strokeWidth = 2.0;
 
     if (gradient) {
       final fillPath = Path.from(path);
-      fillPath.lineTo(size.width, size.height);
-      fillPath.lineTo(0, size.height);
+      fillPath.lineTo(size.width, size.height + strokeWidth * 2);
+      fillPath.lineTo(0, size.height + strokeWidth * 2);
       fillPath.close();
 
       final gradient = LinearGradient(
@@ -217,12 +218,17 @@ class LineChartPainter extends CustomPainter {
         end: Alignment.bottomCenter,
         colors: [
           color.withOpacity(0.8),
-          color.withOpacity(0.3),
+          color.withOpacity(0.1),
         ],
       );
 
       final shader = gradient.createShader(
-        Rect.fromLTWH(0, 0, size.width, size.height),
+        Rect.fromLTWH(
+          0,
+          0,
+          size.width,
+          size.height + strokeWidth * 2,
+        ),
       );
 
       final fillPaint = Paint()
@@ -234,7 +240,7 @@ class LineChartPainter extends CustomPainter {
 
     final linePaint = Paint()
       ..color = color
-      ..strokeWidth = 2.0
+      ..strokeWidth = strokeWidth
       ..style = PaintingStyle.stroke;
 
     canvas.drawPath(path, linePaint);

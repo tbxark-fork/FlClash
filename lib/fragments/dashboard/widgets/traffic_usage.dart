@@ -25,7 +25,7 @@ class TrafficUsage extends StatelessWidget {
             children: [
               Icon(
                 iconData,
-                size: 16,
+                size: 14,
               ),
               const SizedBox(
                 width: 8,
@@ -34,7 +34,7 @@ class TrafficUsage extends StatelessWidget {
                 flex: 1,
                 child: Text(
                   trafficValue.showValue,
-                  style: context.textTheme.bodyMedium,
+                  style: context.textTheme.bodySmall,
                   maxLines: 1,
                 ),
               ),
@@ -43,7 +43,7 @@ class TrafficUsage extends StatelessWidget {
         ),
         Text(
           trafficValue.showUnit,
-          style: context.textTheme.bodyMedium?.toLight,
+          style: context.textTheme.bodySmall?.toLighter,
         ),
       ],
     );
@@ -52,7 +52,7 @@ class TrafficUsage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: getWidgetHeight(1) + globalState.measure.titleLargeHeight,
+      height: getWidgetHeight(1),
       child: CommonCard.info(
         info: Info(
           label: appLocalizations.trafficUsage,
@@ -65,29 +65,29 @@ class TrafficUsage extends StatelessWidget {
             final upTotalTrafficValue = totalTraffic.up;
             final downTotalTrafficValue = totalTraffic.down;
             return Padding(
-              padding: baseInfoEdgeInsets,
+              padding: baseInfoEdgeInsets.copyWith(
+                top: 4,
+              ),
               child: Column(
-                mainAxisSize: MainAxisSize.min,
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Flexible(
-                    flex: 1,
-                    child: getTrafficDataItem(
-                      context,
-                      Icons.arrow_upward,
-                      upTotalTrafficValue,
-                    ),
+                    child: SizedBox(),
+                  ),
+                  getTrafficDataItem(
+                    context,
+                    Icons.arrow_upward,
+                    upTotalTrafficValue,
                   ),
                   const SizedBox(
                     height: 4,
                   ),
-                  Flexible(
-                    flex: 1,
-                    child: getTrafficDataItem(
-                      context,
-                      Icons.arrow_downward,
-                      downTotalTrafficValue,
-                    ),
-                  ),
+                  getTrafficDataItem(
+                    context,
+                    Icons.arrow_downward,
+                    downTotalTrafficValue,
+                  )
                 ],
               ),
             );

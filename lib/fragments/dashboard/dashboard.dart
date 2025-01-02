@@ -28,9 +28,9 @@ class _DashboardFragmentState extends State<DashboardFragment> {
       commonScaffoldState?.floatingActionButton = const StartButton();
       commonScaffoldState?.actions = [
         ValueListenableBuilder(
-          valueListenable: key.currentState!.isEditNotifier,
-          builder: (_, isEdit, ___) {
-            if (!isEdit) {
+          valueListenable: key.currentState!.addedChildrenNotifier,
+          builder: (_, addedChildren, ___) {
+            if (addedChildren.isEmpty) {
               return Container();
             }
             return IconButton(

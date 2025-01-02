@@ -85,7 +85,7 @@ class _NetworkSpeedState extends State<NetworkSpeed> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: getWidgetHeight(2.5),
+      height: getWidgetHeight(2),
       child: CommonCard.info(
         onPressed: () {},
         info: Info(
@@ -95,49 +95,59 @@ class _NetworkSpeedState extends State<NetworkSpeed> {
         child: Selector<AppFlowingState, List<Traffic>>(
           selector: (_, appFlowingState) => appFlowingState.traffics,
           builder: (_, traffics, __) {
-            return Container(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Flexible(
-                    child: SizedBox(
-                      child: LineChart(
-                        color: Theme.of(context).colorScheme.primary,
-                        points: _getPoints(traffics),
-                      ),
+            return Stack(
+              children: [
+                Positioned.fill(
+                  child: Padding(
+                    padding: EdgeInsets.all(16).copyWith(
+                      bottom: 24,
+                    ),
+                    child: LineChart(
+                      gradient: true,
+                      color: Theme.of(context).colorScheme.primary,
+                      points: _getPoints(traffics),
                     ),
                   ),
-                  SizedBox(
-                    height: 32,
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: _getLabel(
-                          iconData: Icons.upload,
-                          label: appLocalizations.upload,
-                          value: _getLastTraffic(traffics).up,
+                ),
+                Positioned(
+                  top: 0,
+                  right: 0,
+                  child: Transform.translate(
+                    offset: Offset(
+                      -16,
+                      -20,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Icon(
+                          Icons.upload,
                         ),
-                      ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: _getLabel(
-                          iconData: Icons.download,
-                          label: appLocalizations.download,
-                          value: _getLastTraffic(traffics).down,
+                        SizedBox(
+                          width: 4,
                         ),
-                      ),
-                    ],
+                        Text(
+                          "${_getLastTraffic(traffics).up}/s",
+                          style: context.textTheme.bodyMedium,
+                        ),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Icon(
+                          Icons.download,
+                        ),
+                        SizedBox(
+                          width: 4,
+                        ),
+                        Text(
+                          "${_getLastTraffic(traffics).down}/s",
+                          style: context.textTheme.bodyMedium,
+                        ),
+                      ],
+                    ),
                   ),
-                ],
-              ),
+                ),
+              ],
             );
           },
         ),

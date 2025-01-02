@@ -36,8 +36,7 @@ class SuperGrid extends StatefulWidget {
 
 class SuperGridState extends State<SuperGrid> with TickerProviderStateMixin {
   final ValueNotifier<List<GridItem>> _childrenNotifier = ValueNotifier([]);
-  final ValueNotifier<List<GridItem>> _addedChildrenNotifier =
-      ValueNotifier([]);
+  final ValueNotifier<List<GridItem>> addedChildrenNotifier = ValueNotifier([]);
 
   int get length => _childrenNotifier.value.length;
   List<int> _tempIndexList = [];
@@ -102,7 +101,7 @@ class SuperGridState extends State<SuperGrid> with TickerProviderStateMixin {
       width: 460,
       context: context,
       body: ValueListenableBuilder(
-        valueListenable: _addedChildrenNotifier,
+        valueListenable: addedChildrenNotifier,
         builder: (_, value, __) {
           return _AddedWidgetsModal(
             items: value,
@@ -135,7 +134,7 @@ class SuperGridState extends State<SuperGrid> with TickerProviderStateMixin {
   }
 
   _handleChildrenNotifierChange() {
-    _addedChildrenNotifier.value = widget.addedItemsBuilder != null
+    addedChildrenNotifier.value = widget.addedItemsBuilder != null
         ? widget.addedItemsBuilder!(_childrenNotifier.value)
         : [];
   }

@@ -12,8 +12,9 @@ class OutboundMode extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final height = getWidgetHeight(2);
     return SizedBox(
-      height: getWidgetHeight(2),
+      height: height,
       child: Selector<ClashConfig, Mode>(
         selector: (_, clashConfig) => clashConfig.mode,
         builder: (_, mode, __) {
@@ -25,7 +26,7 @@ class OutboundMode extends StatelessWidget {
             ),
             child: Padding(
               padding: const EdgeInsets.only(
-                top: 8,
+                top: 12,
                 bottom: 12,
               ),
               child: Column(
@@ -34,29 +35,30 @@ class OutboundMode extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   for (final item in Mode.values)
-                    ListItem.radio(
-                      horizontalTitleGap: 4,
-                      prue: true,
-                      padding: const EdgeInsets.only(
-                        left: 12,
-                        right: 16,
-                        top: 4,
-                        bottom: 4,
-                      ),
-                      delegate: RadioDelegate(
-                        value: item,
-                        groupValue: mode,
-                        onChanged: (value) async {
-                          if (value == null) {
-                            return;
-                          }
-                          globalState.appController.changeMode(value);
-                        },
-                      ),
-                      title: Text(
-                        Intl.message(item.name),
-                        style:
-                            Theme.of(context).textTheme.bodyMedium?.toSoftBold,
+                    Flexible(
+                      child: ListItem.radio(
+                        horizontalTitleGap: 4,
+                        padding: const EdgeInsets.only(
+                          left: 12,
+                          right: 16,
+                        ),
+                        delegate: RadioDelegate(
+                          value: item,
+                          groupValue: mode,
+                          onChanged: (value) async {
+                            if (value == null) {
+                              return;
+                            }
+                            globalState.appController.changeMode(value);
+                          },
+                        ),
+                        title: Text(
+                          Intl.message(item.name),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                              ?.toSoftBold,
+                        ),
                       ),
                     ),
                 ],

@@ -184,30 +184,30 @@ class _NetworkDetectionState extends State<NetworkDetection> {
                       child: FadeBox(
                         child: ipInfo != null
                             ? TooltipText(
-                          text: Text(
-                            ipInfo.ip,
-                            style: context.textTheme.bodyMedium?.toLight,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        )
+                                text: Text(
+                                  ipInfo.ip,
+                                  style: context.textTheme.bodyMedium?.toLight,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              )
                             : FadeBox(
-                          child: isTesting == false && ipInfo == null
-                              ? Text(
-                            "timeout",
-                            style: context.textTheme.titleMedium
-                                ?.copyWith(color: Colors.red),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          )
-                              : Container(
-                            padding: const EdgeInsets.all(2),
-                            child: const AspectRatio(
-                              aspectRatio: 1,
-                              child: CircularProgressIndicator(),
-                            ),
-                          ),
-                        ),
+                                child: isTesting == false && ipInfo == null
+                                    ? Text(
+                                        "timeout",
+                                        style: context.textTheme.titleMedium
+                                            ?.copyWith(color: Colors.red),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      )
+                                    : Container(
+                                        padding: const EdgeInsets.all(2),
+                                        child: const AspectRatio(
+                                          aspectRatio: 1,
+                                          child: CircularProgressIndicator(),
+                                        ),
+                                      ),
+                              ),
                       ),
                     ),
                   )
