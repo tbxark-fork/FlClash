@@ -115,3 +115,22 @@ class ActiveBuilder extends StatelessWidget {
     );
   }
 }
+
+class ThemeModeBuilder extends StatelessWidget {
+  final StateWidgetBuilder<ThemeMode> builder;
+
+  const ThemeModeBuilder({
+    super.key,
+    required this.builder,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Selector<Config, ThemeMode>(
+      selector: (_, config) => config.themeProps.themeMode,
+      builder: (_, state, __) {
+        return builder(state);
+      },
+    );
+  }
+}

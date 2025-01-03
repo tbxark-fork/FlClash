@@ -86,64 +86,66 @@ class SystemProxyButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: getWidgetHeight(1),
-      child: CommonCard(
-        onPressed: () {
-          showSheet(
-            context: context,
-            body: generateListView(
-              generateSection(
-                items: [
-                  SystemProxyItem(),
-                  BypassDomainItem(),
-                ],
-              ),
-            ),
-            title: appLocalizations.systemProxy,
-          );
-        },
-        info: Info(
-          label: appLocalizations.systemProxy,
-          iconData: Icons.shuffle,
-        ),
-        child: Container(
-          padding: baseInfoEdgeInsets.copyWith(
-            top: 4,
-            bottom: 8,
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                flex: 1,
-                child: TooltipText(
-                  text: Text(
-                    appLocalizations.options,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleSmall
-                        ?.adjustSize(-2)
-                        .toLight,
-                  ),
+      child: LocaleBuilder(
+        builder: (_) => CommonCard(
+          onPressed: () {
+            showSheet(
+              context: context,
+              body: generateListView(
+                generateSection(
+                  items: [
+                    SystemProxyItem(),
+                    BypassDomainItem(),
+                  ],
                 ),
               ),
-              Selector<Config, bool>(
-                selector: (_, config) => config.networkProps.systemProxy,
-                builder: (_, systemProxy, __) {
-                  return Switch(
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    value: systemProxy,
-                    onChanged: (value) {
-                      final config = globalState.appController.config;
-                      config.networkProps =
-                          config.networkProps.copyWith(systemProxy: value);
-                    },
-                  );
-                },
-              )
-            ],
+              title: appLocalizations.systemProxy,
+            );
+          },
+          info: Info(
+            label: appLocalizations.systemProxy,
+            iconData: Icons.shuffle,
+          ),
+          child: Container(
+            padding: baseInfoEdgeInsets.copyWith(
+              top: 4,
+              bottom: 8,
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  flex: 1,
+                  child: TooltipText(
+                    text: Text(
+                      appLocalizations.options,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleSmall
+                          ?.adjustSize(-2)
+                          .toLight,
+                    ),
+                  ),
+                ),
+                Selector<Config, bool>(
+                  selector: (_, config) => config.networkProps.systemProxy,
+                  builder: (_, systemProxy, __) {
+                    return Switch(
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      value: systemProxy,
+                      onChanged: (value) {
+                        final config = globalState.appController.config;
+                        config.networkProps =
+                            config.networkProps.copyWith(systemProxy: value);
+                      },
+                    );
+                  },
+                )
+              ],
+            ),
           ),
         ),
       ),

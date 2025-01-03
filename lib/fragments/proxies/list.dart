@@ -471,6 +471,7 @@ class _ListHeaderState extends State<ListHeader>
   Widget build(BuildContext context) {
     return CommonCard(
       key: widget.key,
+      color: context.colorScheme.tertiaryFixed,
       radius: 16,
       type: CommonCardType.filled,
       child: Container(

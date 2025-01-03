@@ -11,7 +11,6 @@ class ProxyCard extends StatelessWidget {
   final String groupName;
   final Proxy proxy;
   final GroupType groupType;
-  final CommonCardType style;
   final ProxyCardType type;
 
   const ProxyCard({
@@ -19,7 +18,6 @@ class ProxyCard extends StatelessWidget {
     required this.groupName,
     required this.proxy,
     required this.groupType,
-    this.style = CommonCardType.plain,
     required this.type,
   });
 
@@ -135,7 +133,6 @@ class ProxyCard extends StatelessWidget {
         return Stack(
           children: [
             CommonCard(
-              type: style,
               key: key,
               onPressed: () {
                 _changeProxy(context);

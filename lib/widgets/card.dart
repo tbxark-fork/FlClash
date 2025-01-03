@@ -42,7 +42,7 @@ class InfoHeader extends StatelessWidget {
                 if (info.iconData != null) ...[
                   Icon(
                     info.iconData,
-                    color: Theme.of(context).colorScheme.primary,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
                   const SizedBox(
                     width: 8,
@@ -82,7 +82,7 @@ class CommonCard extends StatelessWidget {
   const CommonCard({
     super.key,
     bool? isSelected,
-    this.type = CommonCardType.plain,
+    this.type = CommonCardType.filled,
     this.onPressed,
     this.color,
     this.selectWidget,
@@ -100,11 +100,19 @@ class CommonCard extends StatelessWidget {
   final CommonCardType type;
   final double radius;
 
+  ColorScheme getColorScheme(BuildContext context) {
+    if (color == null) return context.colorScheme;
+    return ColorScheme.fromSeed(
+      seedColor: color!,
+      brightness: Theme.of(context).brightness,
+    );
+  }
+
   BorderSide getBorderSide(BuildContext context, Set<WidgetState> states) {
+    final colorScheme = getColorScheme(context);
     if (type == CommonCardType.filled) {
       return BorderSide.none;
     }
-    final colorScheme = Theme.of(context).colorScheme;
     final hoverColor = isSelected
         ? colorScheme.primary.toLight()
         : colorScheme.primary.toLighter();
@@ -121,7 +129,7 @@ class CommonCard extends StatelessWidget {
   }
 
   Color? getBackgroundColor(BuildContext context, Set<WidgetState> states) {
-    final colorScheme = Theme.of(context).colorScheme;
+    final colorScheme = getColorScheme(context);
     switch (type) {
       case CommonCardType.plain:
         if (isSelected) {
@@ -136,11 +144,10 @@ class CommonCard extends StatelessWidget {
             ?.backgroundColor
             ?.resolve(states);
       case CommonCardType.filled:
-        final currentColor = color ?? colorScheme.surfaceContainer;
         if (isSelected) {
-          return currentColor.adaptive();
+          return colorScheme.secondaryContainer;
         }
-        return currentColor;
+        return colorScheme.surfaceContainer;
     }
   }
 
