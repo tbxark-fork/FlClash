@@ -123,8 +123,7 @@ func getConnections() *C.char {
 //export getMemory
 func getMemory(port C.longlong) {
 	i := int64(port)
-	paramsString := C.GoString(s)
-	handleGetMemory(paramsString, func(value string) {
+	handleGetMemory(func(value string) {
 		bridge.SendToPort(i, value)
 	})
 }

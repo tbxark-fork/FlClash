@@ -2567,6 +2567,18 @@ class ClashFFI {
   late final _getConnections =
       _getConnectionsPtr.asFunction<ffi.Pointer<ffi.Char> Function()>();
 
+  void getMemory(
+    int port,
+  ) {
+    return _getMemory(
+      port,
+    );
+  }
+
+  late final _getMemoryPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.LongLong)>>('getMemory');
+  late final _getMemory = _getMemoryPtr.asFunction<void Function(int)>();
+
   void closeConnections() {
     return _closeConnections();
   }

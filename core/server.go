@@ -163,7 +163,7 @@ func handleAction(action *Action) {
 			action.callback(value)
 		})
 		return
-	case getMemory:
+	case getMemoryMethod:
 		handleGetMemory(func(value string) {
 			action.callback(value)
 		})

@@ -325,6 +325,20 @@ class ClashLib with ClashInterface {
     return completer.future;
   }
 
+  @override
+  FutureOr<String> getMemory() {
+    final completer = Completer<String>();
+    final receiver = ReceivePort();
+    receiver.listen((message) {
+      if (!completer.isCompleted) {
+        completer.complete(message);
+        receiver.close();
+      }
+    });
+    clashFFI.getMemory(receiver.sendPort.nativePort);
+    return completer.future;
+  }
+
   /// Android
 
   startTun(int fd, int port) {

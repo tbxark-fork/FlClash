@@ -240,6 +240,7 @@ enum ActionMethod {
   startListener,
   stopListener,
   getCountryCode,
+  getMemory,
 }
 
 enum AuthorizeCode { none, success, error }

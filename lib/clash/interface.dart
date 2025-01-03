@@ -47,6 +47,8 @@ mixin ClashInterface {
 
   FutureOr<String> getCountryCode(String ip);
 
+  FutureOr<String> getMemory();
+
   resetTraffic();
 
   startLog();

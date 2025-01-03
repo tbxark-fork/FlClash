@@ -139,6 +139,7 @@ class ClashService with ClashInterface {
       case ActionMethod.updateExternalProvider:
       case ActionMethod.sideLoadExternalProvider:
       case ActionMethod.getCountryCode:
+      case ActionMethod.getMemory:
         completer?.complete(action.data as String);
         return;
       case ActionMethod.message:
@@ -415,6 +416,13 @@ class ClashService with ClashInterface {
     return _invoke<String>(
       method: ActionMethod.getCountryCode,
       data: ip,
+    );
+  }
+
+  @override
+  FutureOr<String> getMemory() {
+    return _invoke<String>(
+      method: ActionMethod.getMemory,
     );
   }
 }

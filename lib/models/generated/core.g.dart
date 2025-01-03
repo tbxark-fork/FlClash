@@ -330,4 +330,5 @@ const _$ActionMethodEnumMap = {
   ActionMethod.startListener: 'startListener',
   ActionMethod.stopListener: 'stopListener',
   ActionMethod.getCountryCode: 'getCountryCode',
+  ActionMethod.getMemory: 'getMemory',
 };
