@@ -9,7 +9,7 @@ import 'package:fl_clash/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-final networkDetectionState = ValueNotifier<NetworkDetectionState>(
+final _networkDetectionState = ValueNotifier<NetworkDetectionState>(
   const NetworkDetectionState(
     isTesting: true,
     ipInfo: null,
@@ -28,6 +28,21 @@ class _NetworkDetectionState extends State<NetworkDetection> {
   Timer? _setTimeoutTimer;
   CancelToken? cancelToken;
 
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(
+          Duration(
+            milliseconds: 1000,
+          ), () {
+        if (_networkDetectionState.value.ipInfo == null) {
+          debouncer.call(DebounceTag.checkIp, _checkIp);
+        }
+      });
+    });
+  }
+
   _checkIp() async {
     final appState = globalState.appController.appState;
     final appFlowingState = globalState.appController.appFlowingState;
@@ -36,7 +51,7 @@ class _NetworkDetectionState extends State<NetworkDetection> {
     final isStart = appFlowingState.isStart;
     if (_preIsStart == false && _preIsStart == isStart) return;
     _clearSetTimeoutTimer();
-    networkDetectionState.value = networkDetectionState.value.copyWith(
+    _networkDetectionState.value = _networkDetectionState.value.copyWith(
       isTesting: true,
       ipInfo: null,
     );
@@ -49,7 +64,7 @@ class _NetworkDetectionState extends State<NetworkDetection> {
     try {
       final ipInfo = await request.checkIp(cancelToken: cancelToken);
       if (ipInfo != null) {
-        networkDetectionState.value = networkDetectionState.value.copyWith(
+        _networkDetectionState.value = _networkDetectionState.value.copyWith(
           isTesting: false,
           ipInfo: ipInfo,
         );
@@ -57,19 +72,25 @@ class _NetworkDetectionState extends State<NetworkDetection> {
       }
       _clearSetTimeoutTimer();
       _setTimeoutTimer = Timer(const Duration(milliseconds: 300), () {
-        networkDetectionState.value = networkDetectionState.value.copyWith(
+        _networkDetectionState.value = _networkDetectionState.value.copyWith(
           isTesting: false,
           ipInfo: null,
         );
       });
     } catch (e) {
       if (e.toString() == "cancelled") {
-        networkDetectionState.value = networkDetectionState.value.copyWith(
+        _networkDetectionState.value = _networkDetectionState.value.copyWith(
           isTesting: true,
           ipInfo: null,
         );
       }
     }
+  }
+
+  @override
+  void dispose() {
+    _clearSetTimeoutTimer();
+    super.dispose();
   }
 
   _clearSetTimeoutTimer() {
@@ -97,7 +118,7 @@ class _NetworkDetectionState extends State<NetworkDetection> {
     );
   }
 
-  String countryCodeToEmoji(String countryCode) {
+  _countryCodeToEmoji(String countryCode) {
     final String code = countryCode.toUpperCase();
     if (code.length != 2) {
       return countryCode;
@@ -113,7 +134,7 @@ class _NetworkDetectionState extends State<NetworkDetection> {
       height: getWidgetHeight(1),
       child: _checkIpContainer(
         ValueListenableBuilder<NetworkDetectionState>(
-          valueListenable: networkDetectionState,
+          valueListenable: _networkDetectionState,
           builder: (_, state, __) {
             final ipInfo = state.ipInfo;
             final isTesting = state.isTesting;
@@ -132,7 +153,7 @@ class _NetworkDetectionState extends State<NetworkDetection> {
                       children: [
                         ipInfo != null
                             ? Text(
-                                countryCodeToEmoji(
+                                _countryCodeToEmoji(
                                   ipInfo.countryCode,
                                 ),
                                 style: Theme.of(context)
