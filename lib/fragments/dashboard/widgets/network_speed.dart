@@ -86,7 +86,7 @@ class _NetworkSpeedState extends State<NetworkSpeed> {
                         ),
                         Text(
                           "${_getLastTraffic(traffics).up}/s",
-                          style: context.textTheme.bodyMedium?.toLight,
+                          style: context.textTheme.bodyMedium?.toLighter,
                         ),
                         SizedBox(
                           width: 16,
@@ -99,7 +99,7 @@ class _NetworkSpeedState extends State<NetworkSpeed> {
                         ),
                         Text(
                           "${_getLastTraffic(traffics).down}/s",
-                          style: context.textTheme.bodyMedium?.toLight,
+                          style: context.textTheme.bodyMedium?.toLighter,
                         ),
                       ],
                     ),
