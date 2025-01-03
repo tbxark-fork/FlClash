@@ -442,7 +442,7 @@ class _ListHeaderState extends State<ListHeader>
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     color: context.colorScheme.secondaryContainer,
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(12),
                   ),
                   clipBehavior: Clip.antiAlias,
                   child: CommonTargetIcon(
@@ -471,7 +471,7 @@ class _ListHeaderState extends State<ListHeader>
   Widget build(BuildContext context) {
     return CommonCard(
       key: widget.key,
-      color: context.colorScheme.tertiaryContainer,
+      color: context.colorScheme.tertiary.adaptive(),
       radius: 14,
       type: CommonCardType.filled,
       child: Container(

@@ -175,10 +175,12 @@ class SuperGridState extends State<SuperGrid> with TickerProviderStateMixin {
     _initState();
   }
 
-  _handleIsEditChange() {
+  _handleIsEditChange() async {
     _handleChildrenNotifierChange();
     if (isEditNotifier.value == false) {
       if (widget.onSave != null) {
+        await _transformCompleter?.future;
+        await Future.delayed(commonDuration);
         widget.onSave!(_childrenNotifier.value);
       }
     }
@@ -277,11 +279,7 @@ class SuperGridState extends State<SuperGrid> with TickerProviderStateMixin {
     if (_targetIndex != -1) {
       _targetOffset = nextOffsets[_targetIndex];
     }
-    _transformCompleter = Completer();
-    _transformCompleter?.complete(
-      _transformController.forward(from: 0),
-    );
-    return _transformCompleter?.future;
+    return _transformController.forward(from: 0);
   }
 
   _handleDragStarted(int index) {
@@ -305,6 +303,9 @@ class SuperGridState extends State<SuperGrid> with TickerProviderStateMixin {
       return;
     }
 
+    _transformCompleter?.complete(
+      _transformController.forward(from: 0),
+    );
     const spring = SpringDescription(
       mass: 1,
       stiffness: 100,
@@ -316,7 +317,11 @@ class SuperGridState extends State<SuperGrid> with TickerProviderStateMixin {
       end: _targetOffset,
     ).animate(_fakeDragWidgetController);
     _animating.value = true;
-    await _fakeDragWidgetController.animateWith(simulation);
+
+    _transformCompleter = Completer();
+    final animateWith = _fakeDragWidgetController.animateWith(simulation);
+    _transformCompleter?.complete(animateWith);
+    await animateWith;
     _animating.value = false;
     _fakeDragWidgetAnimation = null;
     _transformTweenMap.clear();
