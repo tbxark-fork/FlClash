@@ -4,6 +4,8 @@ import 'dart:math';
 import 'package:defer_pointer/defer_pointer.dart';
 import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/enum/enum.dart';
+import 'package:fl_clash/models/models.dart';
+import 'package:fl_clash/widgets/activate_box.dart';
 import 'package:fl_clash/widgets/card.dart';
 import 'package:fl_clash/widgets/grid.dart';
 import 'package:fl_clash/widgets/sheet.dart';
@@ -448,8 +450,7 @@ class SuperGridState extends State<SuperGrid> with TickerProviderStateMixin {
       valueListenable: _animating,
       builder: (_, animating, child) {
         if (animating) {
-          return IgnorePointer(
-            ignoring: true,
+          return ActivateBox(
             child: child!,
           );
         } else {
@@ -551,22 +552,20 @@ class SuperGridState extends State<SuperGrid> with TickerProviderStateMixin {
       child: Builder(
         builder: (context) {
           _itemContexts[index] = context;
-          final childWhenDragging = IgnorePointer(
-            ignoring: true,
+          final childWhenDragging = ActivateBox(
             child: Opacity(
-              opacity: 0.2,
+              opacity: 0.3,
               child: _sizeBoxWrap(
                 CommonCard(
                   child: Container(
-                    color: context.colorScheme.primary,
+                    color: context.colorScheme.secondaryContainer,
                   ),
                 ),
                 index,
               ),
             ),
           );
-          final feedback = IgnorePointer(
-            ignoring: true,
+          final feedback = ActivateBox(
             child: _sizeBoxWrap(
               CommonCard(
                 child: Material(
@@ -622,8 +621,7 @@ class SuperGridState extends State<SuperGrid> with TickerProviderStateMixin {
                 child: child!,
               );
             },
-            child: IgnorePointer(
-              ignoring: true,
+            child: ActivateBox(
               child: _childrenNotifier.value[index].child,
             ),
           ),
@@ -864,8 +862,7 @@ class _AddedContainerState extends State<_AddedContainer> {
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        IgnorePointer(
-          ignoring: true,
+        ActivateBox(
           child: widget.child,
         ),
         Positioned(
