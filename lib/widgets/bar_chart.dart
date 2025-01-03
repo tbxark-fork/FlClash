@@ -5,12 +5,6 @@ import 'package:fl_clash/common/constant.dart';
 import 'package:fl_clash/common/list.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MaterialApp(
-    home: BarChartApp(),
-  ));
-}
-
 class BarChartApp extends StatefulWidget {
   const BarChartApp({
     super.key,
