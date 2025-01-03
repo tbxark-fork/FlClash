@@ -351,7 +351,7 @@ class AppFlowingState with ChangeNotifier {
 
   addTraffic(Traffic traffic) {
     _traffics = List.from(_traffics)..add(traffic);
-    const maxLength = 60;
+    const maxLength = 30;
     _traffics = _traffics.safeSublist(_traffics.length - maxLength);
     notifyListeners();
   }

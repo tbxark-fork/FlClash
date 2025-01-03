@@ -202,7 +202,7 @@ class ClashCore {
 
   Future<IpInfo?> getCountryCode(String ip) async {
     final countryCode = await clashInterface.getCountryCode(ip);
-    if(countryCode.isEmpty){
+    if (countryCode.isEmpty) {
       return null;
     }
     return IpInfo(
@@ -214,6 +214,11 @@ class ClashCore {
   Future<Traffic> getTotalTraffic(bool value) async {
     final totalTrafficString = await clashInterface.getTotalTraffic(value);
     return Traffic.fromMap(json.decode(totalTrafficString));
+  }
+
+  Future<int> getMemory(bool value) async {
+    final value = await clashInterface.getMemory();
+    return int.parse(value);
   }
 
   resetTraffic() {
