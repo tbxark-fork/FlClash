@@ -2,66 +2,7 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:fl_clash/common/constant.dart';
-import 'package:fl_clash/common/list.dart';
 import 'package:flutter/material.dart';
-
-class BarChartApp extends StatefulWidget {
-  const BarChartApp({
-    super.key,
-  });
-
-  @override
-  State<BarChartApp> createState() => _BarChartAppState();
-}
-
-class _BarChartAppState extends State<BarChartApp> {
-  var data = [
-    BarChartData(
-      value: 300,
-      label: UniqueKey().toString(),
-    ),
-    BarChartData(
-      value: 200,
-      label: UniqueKey().toString(),
-    ),
-    BarChartData(
-      value: 300,
-      label: UniqueKey().toString(),
-    )
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        setState(() {
-          data = List.from(data)
-            ..add(
-              BarChartData(
-                value: 200 + Random().nextDouble() * 300,
-                label: UniqueKey().toString(),
-              ),
-            );
-
-          const maxLength = 4;
-          data = data.safeSublist(data.length - maxLength);
-        });
-      }),
-      appBar: AppBar(
-        title: Text('Canvas 柱状图示例'),
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Container(
-          color: Colors.yellow,
-          height: 100,
-          width: 200,
-          child: BarChart(data: data),
-        ),
-      ),
-    );
-  }
-}
 
 @immutable
 class BarChartData {
