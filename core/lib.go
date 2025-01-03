@@ -120,6 +120,15 @@ func getConnections() *C.char {
 	return C.CString(handleGetConnections())
 }
 
+//export getMemory
+func getMemory(port C.longlong) {
+	i := int64(port)
+	paramsString := C.GoString(s)
+	handleGetMemory(paramsString, func(value string) {
+		bridge.SendToPort(i, value)
+	})
+}
+
 //export closeConnections
 func closeConnections() {
 	handleCloseConnections()

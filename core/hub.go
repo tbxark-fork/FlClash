@@ -21,6 +21,7 @@ import (
 	"net"
 	"runtime"
 	"sort"
+	"strconv"
 	"time"
 )
 
@@ -416,6 +417,12 @@ func handleGetCountryCode(ip string, fn func(value string)) {
 			return
 		}
 		fn(codes[0])
+	}()
+}
+
+func handleGetMemory(fn func(value string)) {
+	go func() {
+		fn(strconv.FormatUint(statistic.DefaultManager.Memory(), 10))
 	}()
 }
 
