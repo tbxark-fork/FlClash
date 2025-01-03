@@ -35,6 +35,7 @@ class TUNButton extends StatelessWidget {
             padding: baseInfoEdgeInsets.copyWith(
               top: 4,
               bottom: 8,
+              right: 8,
             ),
             child: Row(
               mainAxisSize: MainAxisSize.max,
@@ -110,6 +111,7 @@ class SystemProxyButton extends StatelessWidget {
             padding: baseInfoEdgeInsets.copyWith(
               top: 4,
               bottom: 8,
+              right: 8,
             ),
             child: Row(
               mainAxisSize: MainAxisSize.max,

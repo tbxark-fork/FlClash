@@ -175,7 +175,16 @@ class ClashService with ClashInterface {
       onLast: () {
         callbackCompleterMap.remove(id);
       },
-      onTimeout: onTimeout,
+      onTimeout: onTimeout ??
+          () {
+            if (T is String) {
+              return "" as T;
+            }
+            if (T is bool) {
+              return false as T;
+            }
+            return null as T;
+          },
       functionName: id,
     );
   }
