@@ -33,7 +33,7 @@ import (
 var (
 	isRunning = false
 	runLock   sync.Mutex
-	ips       = []string{"api.ipify.org", "ifconfig.me", "icanhazip.com"}
+	ips       = []string{"ipwho.is", "ifconfig.me", "icanhazip.com", "api.ip.sb", "ipinfo.io"}
 	b, _      = batch.New[bool](context.Background(), batch.WithConcurrencyNum[bool](50))
 )
 

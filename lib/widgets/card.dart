@@ -103,9 +103,9 @@ class CommonCard extends StatelessWidget {
 
   BorderSide getBorderSide(BuildContext context, Set<WidgetState> states) {
     final colorScheme = context.colorScheme;
-    if (type == CommonCardType.filled) {
-      return BorderSide.none;
-    }
+    // if (type == CommonCardType.filled) {
+    //   return BorderSide.none;
+    // }
     final hoverColor = isSelected
         ? colorScheme.primary.toLight()
         : colorScheme.primary.toLighter();
@@ -138,7 +138,7 @@ class CommonCard extends StatelessWidget {
             ?.resolve(states);
       case CommonCardType.filled:
         if (isSelected) {
-          return colorScheme.secondaryContainer;
+          return colorScheme.surfaceContainerHighest;
         }
         return colorScheme.surfaceContainer;
     }

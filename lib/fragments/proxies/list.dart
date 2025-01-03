@@ -414,7 +414,7 @@ class _ListHeaderState extends State<ListHeader>
   Widget _buildIcon() {
     return Selector<Config, ProxiesIconStyle>(
       selector: (_, config) => config.proxiesStyle.iconStyle,
-      builder: (_, iconStyle, child) {
+      builder: (context, iconStyle, child) {
         return Selector<Config, String>(
           selector: (_, config) {
             final iconMapEntryList =
@@ -471,7 +471,7 @@ class _ListHeaderState extends State<ListHeader>
   Widget build(BuildContext context) {
     return CommonCard(
       key: widget.key,
-      color: context.colorScheme.tertiaryFixed,
+      color: context.colorScheme.tertiaryContainer,
       radius: 14,
       type: CommonCardType.filled,
       child: Container(
@@ -517,9 +517,9 @@ class _ListHeaderState extends State<ListHeader>
                                     return Row(
                                       mainAxisSize: MainAxisSize.min,
                                       mainAxisAlignment:
-                                      MainAxisAlignment.start,
+                                          MainAxisAlignment.start,
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.center,
+                                          CrossAxisAlignment.center,
                                       children: [
                                         if (currentGroupName.isNotEmpty) ...[
                                           Flexible(
