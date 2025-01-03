@@ -472,7 +472,7 @@ class _ListHeaderState extends State<ListHeader>
     return CommonCard(
       key: widget.key,
       color: context.colorScheme.tertiaryFixed,
-      radius: 16,
+      radius: 14,
       type: CommonCardType.filled,
       child: Container(
         padding: const EdgeInsets.symmetric(
@@ -517,9 +517,9 @@ class _ListHeaderState extends State<ListHeader>
                                     return Row(
                                       mainAxisSize: MainAxisSize.min,
                                       mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                      MainAxisAlignment.start,
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.center,
+                                      CrossAxisAlignment.center,
                                       children: [
                                         if (currentGroupName.isNotEmpty) ...[
                                           Flexible(
