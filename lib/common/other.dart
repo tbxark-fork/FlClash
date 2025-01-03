@@ -225,7 +225,7 @@ class Other {
   }
 
   int getProfilesColumns(double viewWidth) {
-    return max((viewWidth / 400).floor(), 1);
+    return max((viewWidth / 350).floor(), 1);
   }
 
   String getBackupFileName() {

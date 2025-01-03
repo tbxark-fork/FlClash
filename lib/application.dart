@@ -59,7 +59,6 @@ class Application extends StatefulWidget {
 
 class ApplicationState extends State<Application> {
   late SystemColorSchemes systemColorSchemes;
-  Timer? timer;
 
   final _pageTransitionsTheme = const PageTransitionsTheme(
     builders: <TargetPlatform, PageTransitionsBuilder>{
@@ -96,7 +95,6 @@ class ApplicationState extends State<Application> {
   @override
   void initState() {
     super.initState();
-    _initTimer();
     globalState.appController = AppController(context);
     globalState.measure = Measure.of(context);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
@@ -108,22 +106,6 @@ class ApplicationState extends State<Application> {
       globalState.appController.initLink();
       app?.initShortcuts();
     });
-  }
-
-  _initTimer() {
-    _cancelTimer();
-    timer = Timer.periodic(const Duration(milliseconds: 20000), (_) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        globalState.appController.updateGroupsDebounce();
-      });
-    });
-  }
-
-  _cancelTimer() {
-    if (timer != null) {
-      timer?.cancel();
-      timer = null;
-    }
   }
 
   _buildPlatformWrap(Widget child) {
@@ -255,7 +237,6 @@ class ApplicationState extends State<Application> {
   @override
   Future<void> dispose() async {
     linkManager.destroy();
-    _cancelTimer();
     await clashService?.destroy();
     await globalState.appController.savePreferences();
     await globalState.appController.handleExit();

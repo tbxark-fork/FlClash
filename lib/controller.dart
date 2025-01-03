@@ -161,6 +161,9 @@ class AppController {
     config.setProfile(
       newProfile.copyWith(isUpdating: false),
     );
+    if (profile.id == config.currentProfile?.id) {
+      applyProfileDebounce();
+    }
   }
 
   Future<void> updateClashConfig({bool isPatch = true}) async {
@@ -351,6 +354,24 @@ class AppController {
     );
     autoUpdateProfiles();
     autoCheckUpdate();
+    _autoUpdateGroupTask();
+    _autoUpdateProfilesTask();
+  }
+
+  _autoUpdateGroupTask() {
+    Timer(const Duration(milliseconds: 20000), () {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        globalState.appController.updateGroupsDebounce();
+        _autoUpdateGroupTask();
+      });
+    });
+  }
+
+  _autoUpdateProfilesTask() {
+    Timer(const Duration(seconds: 5), () async {
+      await autoUpdateProfiles();
+      _autoUpdateProfilesTask();
+    });
   }
 
   _initStatus() async {
