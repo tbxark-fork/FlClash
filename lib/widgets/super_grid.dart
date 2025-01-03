@@ -302,10 +302,6 @@ class SuperGridState extends State<SuperGrid> with TickerProviderStateMixin {
     if (_targetIndex == -1) {
       return;
     }
-
-    _transformCompleter?.complete(
-      _transformController.forward(from: 0),
-    );
     const spring = SpringDescription(
       mass: 1,
       stiffness: 100,
