@@ -1,3 +1,6 @@
+// ignore_for_file: invalid_annotation_target
+
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:fl_clash/common/common.dart';
@@ -25,11 +28,25 @@ const List<DashboardWidget> defaultDashboardWidgets = [
   DashboardWidget.intranetIp,
 ];
 
+List<DashboardWidget> dashboardWidgetsRealFormJson(
+    List<dynamic>? dashboardWidgets) {
+  try {
+    return dashboardWidgets
+            ?.map((e) => $enumDecode(_$DashboardWidgetEnumMap, e))
+            .toList() ??
+        defaultDashboardWidgets;
+  } catch (_) {
+    return defaultDashboardWidgets;
+  }
+}
+
 @freezed
 class AppSetting with _$AppSetting {
   const factory AppSetting({
     String? locale,
-    @Default(defaultDashboardWidgets) List<DashboardWidget> dashboardWidgets,
+    @JsonKey(fromJson: dashboardWidgetsRealFormJson)
+    @Default(defaultDashboardWidgets)
+    List<DashboardWidget> dashboardWidgets,
     @Default(false) bool onlyProxy,
     @Default(false) bool autoLaunch,
     @Default(false) bool silentLaunch,

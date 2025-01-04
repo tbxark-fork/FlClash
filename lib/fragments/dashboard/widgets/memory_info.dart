@@ -7,7 +7,7 @@ import 'package:fl_clash/models/common.dart';
 import 'package:fl_clash/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
-final _MemoryInfoStateNotifier =
+final _memoryInfoStateNotifier =
     ValueNotifier<TrafficValue>(TrafficValue(value: 0));
 
 class MemoryInfo extends StatefulWidget {
@@ -32,9 +32,9 @@ class _MemoryInfoState extends State<MemoryInfo> {
   }
 
   _updateMemoryData(int maxLength) {
-    timer = Timer(Duration(seconds: 1), () async {
+    timer = Timer(Duration(seconds: 3), () async {
       final memory = await clashCore.getMemory();
-      _MemoryInfoStateNotifier.value = TrafficValue(value: memory);
+      _memoryInfoStateNotifier.value = TrafficValue(value: memory);
       _updateMemoryData(maxLength);
     });
   }
@@ -55,7 +55,7 @@ class _MemoryInfoState extends State<MemoryInfo> {
             ),
             onPressed: () {},
             child: ValueListenableBuilder(
-              valueListenable: _MemoryInfoStateNotifier,
+              valueListenable: _memoryInfoStateNotifier,
               builder: (_, trafficValue, __) {
                 return Column(
                   children: [

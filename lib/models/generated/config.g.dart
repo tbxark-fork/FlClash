@@ -54,10 +54,9 @@ Map<String, dynamic> _$ConfigToJson(Config instance) => <String, dynamic>{
 _$AppSettingImpl _$$AppSettingImplFromJson(Map<String, dynamic> json) =>
     _$AppSettingImpl(
       locale: json['locale'] as String?,
-      dashboardWidgets: (json['dashboardWidgets'] as List<dynamic>?)
-              ?.map((e) => $enumDecode(_$DashboardWidgetEnumMap, e))
-              .toList() ??
-          defaultDashboardWidgets,
+      dashboardWidgets: json['dashboardWidgets'] == null
+          ? defaultDashboardWidgets
+          : dashboardWidgetsRealFormJson(json['dashboardWidgets'] as List?),
       onlyProxy: json['onlyProxy'] as bool? ?? false,
       autoLaunch: json['autoLaunch'] as bool? ?? false,
       silentLaunch: json['silentLaunch'] as bool? ?? false,
