@@ -23,6 +23,7 @@ class _MemoryInfoState extends State<MemoryInfo> {
   @override
   void initState() {
     super.initState();
+    _updateMemoryData();
   }
 
   @override
@@ -31,11 +32,11 @@ class _MemoryInfoState extends State<MemoryInfo> {
     super.dispose();
   }
 
-  _updateMemoryData(int maxLength) {
+  _updateMemoryData() {
     timer = Timer(Duration(seconds: 3), () async {
       final memory = await clashCore.getMemory();
       _memoryInfoStateNotifier.value = TrafficValue(value: memory);
-      _updateMemoryData(maxLength);
+      _updateMemoryData();
     });
   }
 
