@@ -85,8 +85,8 @@ class CommonCard extends StatelessWidget {
     bool? isSelected,
     this.type = CommonCardType.filled,
     this.onPressed,
-    this.color,
     this.selectWidget,
+    this.backgroundColor,
     this.radius = 12,
     required this.child,
     this.info,
@@ -96,10 +96,10 @@ class CommonCard extends StatelessWidget {
   final void Function()? onPressed;
   final Widget? selectWidget;
   final Widget child;
-  final Color? color;
   final Info? info;
   final CommonCardType type;
   final double radius;
+  final WidgetStateProperty<Color?>? backgroundColor;
 
   BorderSide getBorderSide(BuildContext context, Set<WidgetState> states) {
     final colorScheme = context.colorScheme;
@@ -179,40 +179,27 @@ class CommonCard extends StatelessWidget {
       );
     }
 
-    return ThemeModeBuilder(
-      builder: (_) => Theme(
-        data: Theme.of(context).copyWith(
-          colorScheme: color != null
-              ? ColorScheme.fromSeed(
-                  seedColor: color!,
-                  brightness: Theme.of(context).brightness,
-                )
-              : null,
-        ),
-        child: Builder(
-          builder: (context) => OutlinedButton(
-            clipBehavior: Clip.antiAlias,
-            style: ButtonStyle(
-              padding: const WidgetStatePropertyAll(EdgeInsets.zero),
-              shape: WidgetStatePropertyAll(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(radius),
-                ),
-              ),
-              iconColor: WidgetStatePropertyAll(context.colorScheme.primary),
-              iconSize: WidgetStateProperty.all(18),
-              backgroundColor: WidgetStateProperty.resolveWith(
-                (states) => getBackgroundColor(context, states),
-              ),
-              side: WidgetStateProperty.resolveWith(
-                (states) => getBorderSide(context, states),
-              ),
-            ),
-            onPressed: onPressed,
-            child: childWidget,
+    return OutlinedButton(
+      clipBehavior: Clip.antiAlias,
+      style: ButtonStyle(
+        padding: const WidgetStatePropertyAll(EdgeInsets.zero),
+        shape: WidgetStatePropertyAll(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(radius),
           ),
         ),
+        iconColor: WidgetStatePropertyAll(context.colorScheme.primary),
+        iconSize: WidgetStateProperty.all(18),
+        backgroundColor: backgroundColor ??
+            WidgetStateProperty.resolveWith(
+              (states) => getBackgroundColor(context, states),
+            ),
+        side: WidgetStateProperty.resolveWith(
+          (states) => getBorderSide(context, states),
+        ),
       ),
+      onPressed: onPressed,
+      child: childWidget,
     );
   }
 }

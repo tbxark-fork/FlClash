@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:fl_clash/fragments/dashboard/widgets/memory_view.dart';
 import 'package:fl_clash/fragments/dashboard/widgets/widgets.dart';
 import 'package:fl_clash/widgets/widgets.dart';
 import 'package:flutter/services.dart';
@@ -308,6 +309,12 @@ enum DashboardWidget {
     GridItem(
       crossAxisCellCount: 4,
       child: IntranetIP(),
+    ),
+  ),
+  memoryView(
+    GridItem(
+      crossAxisCellCount: 4,
+      child: MemoryView(),
     ),
   );
 

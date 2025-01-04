@@ -414,7 +414,7 @@ class _ListHeaderState extends State<ListHeader>
   Widget _buildIcon() {
     return Selector<Config, ProxiesIconStyle>(
       selector: (_, config) => config.proxiesStyle.iconStyle,
-      builder: (context, iconStyle, child) {
+      builder: (_, iconStyle, child) {
         return Selector<Config, String>(
           selector: (_, config) {
             final iconMapEntryList =
@@ -471,7 +471,9 @@ class _ListHeaderState extends State<ListHeader>
   Widget build(BuildContext context) {
     return CommonCard(
       key: widget.key,
-      color: context.colorScheme.tertiary.adaptive(),
+      backgroundColor: WidgetStatePropertyAll(
+        context.colorScheme.surfaceContainer,
+      ),
       radius: 14,
       type: CommonCardType.filled,
       child: Container(

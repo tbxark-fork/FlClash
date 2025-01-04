@@ -62,18 +62,21 @@ class _BarChartState extends State<BarChart>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _animationController,
-      builder: (context, child) {
-        return CustomPaint(
-          painter: BarChartPainter(
-            _oldData,
-            widget.data,
-            _animationController.value,
-          ),
-        );
-      },
-    );
+    return LayoutBuilder(builder: (_, container) {
+      return AnimatedBuilder(
+        animation: _animationController,
+        builder: (context, child) {
+          return CustomPaint(
+            painter: BarChartPainter(
+              _oldData,
+              widget.data,
+              _animationController.value,
+            ),
+            size: Size(container.maxWidth, container.maxHeight),
+          );
+        },
+      );
+    });
   }
 }
 
@@ -100,8 +103,12 @@ class BarChartPainter extends CustomPainter {
           barWidth > maxBarWidth ? (barWidth - maxBarWidth) / 2 : 0;
       double left = i * (barWidth + spacing) + adjustLeft;
       double top = size.height - barHeight;
-      rects[data.label] =
-          Rect.fromLTWH(left, top, min(barWidth, 30), barHeight);
+      rects[data.label] = Rect.fromLTWH(
+        left,
+        top,
+        min(barWidth, 30),
+        barHeight,
+      );
     }
     return rects;
   }

@@ -216,7 +216,7 @@ class ClashCore {
     return Traffic.fromMap(json.decode(totalTrafficString));
   }
 
-  Future<int> getMemory(bool value) async {
+  Future<int> getMemory() async {
     final value = await clashInterface.getMemory();
     return int.parse(value);
   }

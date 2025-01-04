@@ -59,6 +59,8 @@ class Application extends StatefulWidget {
 
 class ApplicationState extends State<Application> {
   late SystemColorSchemes systemColorSchemes;
+  Timer? _autoUpdateGroupTaskTimer;
+  Timer? _autoUpdateProfilesTaskTimer;
 
   final _pageTransitionsTheme = const PageTransitionsTheme(
     builders: <TargetPlatform, PageTransitionsBuilder>{
@@ -95,6 +97,8 @@ class ApplicationState extends State<Application> {
   @override
   void initState() {
     super.initState();
+    _autoUpdateGroupTask();
+    _autoUpdateProfilesTask();
     globalState.appController = AppController(context);
     globalState.measure = Measure.of(context);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
@@ -105,6 +109,22 @@ class ApplicationState extends State<Application> {
       await globalState.appController.init();
       globalState.appController.initLink();
       app?.initShortcuts();
+    });
+  }
+
+  _autoUpdateGroupTask() {
+    _autoUpdateGroupTaskTimer = Timer(const Duration(milliseconds: 20000), () {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        globalState.appController.updateGroupsDebounce();
+        _autoUpdateGroupTask();
+      });
+    });
+  }
+
+  _autoUpdateProfilesTask() {
+    _autoUpdateProfilesTaskTimer = Timer(const Duration(seconds: 5), () async {
+      await globalState.appController.autoUpdateProfiles();
+      _autoUpdateProfilesTask();
     });
   }
 
@@ -237,6 +257,8 @@ class ApplicationState extends State<Application> {
   @override
   Future<void> dispose() async {
     linkManager.destroy();
+    _autoUpdateGroupTaskTimer?.cancel();
+    _autoUpdateProfilesTaskTimer?.cancel();
     await clashService?.destroy();
     await globalState.appController.savePreferences();
     await globalState.appController.handleExit();
