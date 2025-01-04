@@ -43,70 +43,63 @@ class _MemoryInfoState extends State<MemoryInfo> {
   Widget build(BuildContext context) {
     return SizedBox(
       height: getWidgetHeight(2),
-      child: LayoutBuilder(
-        builder: (_, container) {
-          final maxLength = max((container.maxWidth / 30).floor(), 5);
-          timer?.cancel();
-          _updateMemoryData(maxLength);
-          return CommonCard(
-            info: Info(
-              iconData: Icons.memory,
-              label: appLocalizations.memoryInfo,
-            ),
-            onPressed: () {},
-            child: ValueListenableBuilder(
-              valueListenable: _memoryInfoStateNotifier,
-              builder: (_, trafficValue, __) {
-                return Column(
-                  children: [
-                    Padding(
-                      padding: baseInfoEdgeInsets.copyWith(
-                        bottom: 0,
-                        top: 12,
+      child: CommonCard(
+        info: Info(
+          iconData: Icons.memory,
+          label: appLocalizations.memoryInfo,
+        ),
+        onPressed: () {},
+        child: ValueListenableBuilder(
+          valueListenable: _memoryInfoStateNotifier,
+          builder: (_, trafficValue, __) {
+            return Column(
+              children: [
+                Padding(
+                  padding: baseInfoEdgeInsets.copyWith(
+                    bottom: 0,
+                    top: 12,
+                  ),
+                  child: Row(
+                    children: [
+                      Text(
+                        trafficValue.showValue,
+                        style: context.textTheme.titleLarge,
                       ),
-                      child: Row(
-                        children: [
-                          Text(
-                            trafficValue.showValue,
-                            style: context.textTheme.titleLarge,
-                          ),
-                          SizedBox(
-                            width: 8,
-                          ),
-                          Text(
-                            trafficValue.showUnit,
-                            style: context.textTheme.titleLarge,
-                          )
-                        ],
+                      SizedBox(
+                        width: 8,
                       ),
-                    ),
-                    Flexible(
-                      child: Stack(
-                        children: [
-                          Positioned.fill(
-                            child: WaveView(
-                              waveAmplitude: 12.0,
-                              waveFrequency: 0.35,
-                              waveColor:
-                                  context.colorScheme.secondary.toLight(),
-                            ),
-                          ),
-                          Positioned.fill(
-                            child: WaveView(
-                              waveAmplitude: 12.0,
-                              waveFrequency: 0.9,
-                              waveColor: context.colorScheme.primary,
-                            ),
-                          ),
-                        ],
+                      Text(
+                        trafficValue.showUnit,
+                        style: context.textTheme.titleLarge,
+                      )
+                    ],
+                  ),
+                ),
+                Flexible(
+                  child: Stack(
+                    children: [
+                      Positioned.fill(
+                        child: WaveView(
+                          waveAmplitude: 12.0,
+                          waveFrequency: 0.35,
+                          waveColor:
+                          context.colorScheme.secondary.toLight(),
+                        ),
                       ),
-                    )
-                  ],
-                );
-              },
-            ),
-          );
-        },
+                      Positioned.fill(
+                        child: WaveView(
+                          waveAmplitude: 12.0,
+                          waveFrequency: 0.9,
+                          waveColor: context.colorScheme.primary,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            );
+          },
+        ),
       ),
     );
   }
