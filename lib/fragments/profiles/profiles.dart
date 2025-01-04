@@ -90,9 +90,6 @@ class _ProfilesFragmentState extends State<ProfilesFragment> {
             },
             icon: const Icon(Icons.sync),
           ),
-          const SizedBox(
-            width: 8,
-          ),
           IconButton(
             onPressed: () {
               final profiles = globalState.appController.config.profiles;

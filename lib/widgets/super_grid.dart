@@ -99,7 +99,7 @@ class SuperGridState extends State<SuperGrid> with TickerProviderStateMixin {
       return;
     }
     showSheet(
-      width: 460,
+      width: 360,
       context: context,
       body: ValueListenableBuilder(
         valueListenable: addedChildrenNotifier,
@@ -115,7 +115,7 @@ class SuperGridState extends State<SuperGrid> with TickerProviderStateMixin {
           );
         },
       ),
-      title: "添加组件",
+      title: appLocalizations.add,
     );
   }
 

@@ -1,8 +1,12 @@
+import 'dart:math';
+
 import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../../../state.dart';
 
 class TrafficUsage extends StatelessWidget {
   const TrafficUsage({super.key});
@@ -75,6 +79,7 @@ class TrafficUsage extends StatelessWidget {
                         vertical: 12,
                       ),
                       child: Row(
+                        mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           AspectRatio(
@@ -92,51 +97,90 @@ class TrafficUsage extends StatelessWidget {
                               ],
                             ),
                           ),
-                          Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    width: 20,
-                                    height: 8,
-                                    decoration: BoxDecoration(
-                                      color: context.colorScheme.primary,
-                                      borderRadius: BorderRadius.circular(2),
+                          SizedBox(
+                            width: 8,
+                          ),
+                          Flexible(
+                            child: LayoutBuilder(
+                              builder: (_, container) {
+                                final uploadText = Text(
+                                  maxLines: 1,
+                                  appLocalizations.upload,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: context.textTheme.bodySmall,
+                                );
+                                final downloadText = Text(
+                                  maxLines: 1,
+                                  appLocalizations.download,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: context.textTheme.bodySmall,
+                                );
+                                final uploadTextSize = globalState.measure
+                                    .computeTextSize(uploadText);
+                                final downloadTextSize = globalState.measure
+                                    .computeTextSize(downloadText);
+                                final maxTextWidth = max(uploadTextSize.width,
+                                    downloadTextSize.width);
+                                if (maxTextWidth + 24 > container.maxWidth) {
+                                  return Container();
+                                }
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Container(
+                                          width: 20,
+                                          height: 8,
+                                          decoration: BoxDecoration(
+                                            color: context.colorScheme.primary,
+                                            borderRadius:
+                                                BorderRadius.circular(2),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 4,
+                                        ),
+                                        Text(
+                                          maxLines: 1,
+                                          appLocalizations.upload,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: context.textTheme.bodySmall,
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                  SizedBox(
-                                    width: 4,
-                                  ),
-                                  Text(
-                                    appLocalizations.upload,
-                                    style: context.textTheme.bodySmall,
-                                  )
-                                ],
-                              ),
-                              SizedBox(
-                                height: 4,
-                              ),
-                              Row(
-                                children: [
-                                  Container(
-                                    width: 20,
-                                    height: 8,
-                                    decoration: BoxDecoration(
-                                      color: context.colorScheme.tertiary,
-                                      borderRadius: BorderRadius.circular(2),
+                                    SizedBox(
+                                      height: 4,
                                     ),
-                                  ),
-                                  SizedBox(
-                                    width: 4,
-                                  ),
-                                  Text(
-                                    appLocalizations.download,
-                                    style: context.textTheme.bodySmall,
-                                  )
-                                ],
-                              ),
-                            ],
-                          )
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Container(
+                                          width: 20,
+                                          height: 8,
+                                          decoration: BoxDecoration(
+                                            color: context.colorScheme.tertiary,
+                                            borderRadius:
+                                                BorderRadius.circular(2),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 4,
+                                        ),
+                                        Text(
+                                          maxLines: 1,
+                                          appLocalizations.download,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: context.textTheme.bodySmall,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                          ),
                         ],
                       ),
                     ),

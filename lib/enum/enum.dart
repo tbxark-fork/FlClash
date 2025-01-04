@@ -311,10 +311,10 @@ enum DashboardWidget {
       child: IntranetIP(),
     ),
   ),
-  memoryView(
+  memoryInfo(
     GridItem(
       crossAxisCellCount: 4,
-      child: MemoryView(),
+      child: MemoryInfo(),
     ),
   );
 

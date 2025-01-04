@@ -7,17 +7,17 @@ import 'package:fl_clash/models/common.dart';
 import 'package:fl_clash/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
-final _memoryViewStateNotifier =
+final _MemoryInfoStateNotifier =
     ValueNotifier<TrafficValue>(TrafficValue(value: 0));
 
-class MemoryView extends StatefulWidget {
-  const MemoryView({super.key});
+class MemoryInfo extends StatefulWidget {
+  const MemoryInfo({super.key});
 
   @override
-  State<MemoryView> createState() => _MemoryViewState();
+  State<MemoryInfo> createState() => _MemoryInfoState();
 }
 
-class _MemoryViewState extends State<MemoryView> {
+class _MemoryInfoState extends State<MemoryInfo> {
   Timer? timer;
 
   @override
@@ -34,7 +34,7 @@ class _MemoryViewState extends State<MemoryView> {
   _updateMemoryData(int maxLength) {
     timer = Timer(Duration(seconds: 1), () async {
       final memory = await clashCore.getMemory();
-      _memoryViewStateNotifier.value = TrafficValue(value: memory);
+      _MemoryInfoStateNotifier.value = TrafficValue(value: memory);
       _updateMemoryData(maxLength);
     });
   }
@@ -50,12 +50,12 @@ class _MemoryViewState extends State<MemoryView> {
           _updateMemoryData(maxLength);
           return CommonCard(
             info: Info(
-              iconData: Icons.bar_chart,
-              label: "内存信息",
+              iconData: Icons.memory,
+              label: appLocalizations.memoryInfo,
             ),
             onPressed: () {},
             child: ValueListenableBuilder(
-              valueListenable: _memoryViewStateNotifier,
+              valueListenable: _MemoryInfoStateNotifier,
               builder: (_, trafficValue, __) {
                 return Column(
                   children: [
@@ -70,6 +70,9 @@ class _MemoryViewState extends State<MemoryView> {
                             trafficValue.showValue,
                             style: context.textTheme.titleLarge,
                           ),
+                          SizedBox(
+                            width: 8,
+                          ),
                           Text(
                             trafficValue.showUnit,
                             style: context.textTheme.titleLarge,
@@ -83,7 +86,7 @@ class _MemoryViewState extends State<MemoryView> {
                           Positioned.fill(
                             child: WaveView(
                               waveAmplitude: 12.0,
-                              waveFrequency: 0.5,
+                              waveFrequency: 0.35,
                               waveColor:
                                   context.colorScheme.secondary.toLight(),
                             ),
@@ -91,7 +94,7 @@ class _MemoryViewState extends State<MemoryView> {
                           Positioned.fill(
                             child: WaveView(
                               waveAmplitude: 12.0,
-                              waveFrequency: 1.0,
+                              waveFrequency: 0.9,
                               waveColor: context.colorScheme.primary,
                             ),
                           ),

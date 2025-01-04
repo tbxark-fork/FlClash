@@ -175,7 +175,7 @@ class _NetworkDetectionState extends State<NetworkDetection> {
                           flex: 1,
                           child: TooltipText(
                             text: Text(
-                              "网络检测",
+                              appLocalizations.networkDetection,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: Theme.of(context).textTheme.titleSmall,
