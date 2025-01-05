@@ -64,14 +64,14 @@ class _MemoryInfoState extends State<MemoryInfo> {
                     children: [
                       Text(
                         trafficValue.showValue,
-                        style: context.textTheme.titleLarge,
+                        style: context.textTheme.titleLarge?.toLight,
                       ),
                       SizedBox(
                         width: 8,
                       ),
                       Text(
                         trafficValue.showUnit,
-                        style: context.textTheme.titleLarge,
+                        style: context.textTheme.titleLarge?.toLight,
                       )
                     ],
                   ),
@@ -83,15 +83,17 @@ class _MemoryInfoState extends State<MemoryInfo> {
                         child: WaveView(
                           waveAmplitude: 12.0,
                           waveFrequency: 0.35,
-                          waveColor:
-                          context.colorScheme.secondary.toLight(),
+                          waveColor: context.colorScheme.secondaryContainer
+                              .blendDarken(context, factor: 0.1)
+                              .toLighter,
                         ),
                       ),
                       Positioned.fill(
                         child: WaveView(
                           waveAmplitude: 12.0,
                           waveFrequency: 0.9,
-                          waveColor: context.colorScheme.primary,
+                          waveColor: context.colorScheme.secondaryContainer
+                              .blendDarken(context, factor: 0.1),
                         ),
                       ),
                     ],

@@ -107,8 +107,8 @@ class CommonCard extends StatelessWidget {
     //   return BorderSide.none;
     // }
     final hoverColor = isSelected
-        ? colorScheme.primary.toLight()
-        : colorScheme.primary.toLighter();
+        ? colorScheme.primary.toLight
+        : colorScheme.primary.toLighter;
     if (states.contains(WidgetState.hovered) ||
         states.contains(WidgetState.focused) ||
         states.contains(WidgetState.pressed)) {
@@ -117,7 +117,7 @@ class CommonCard extends StatelessWidget {
       );
     }
     return BorderSide(
-      color: isSelected ? colorScheme.primary : colorScheme.onSurface.toSoft(),
+      color: isSelected ? colorScheme.primary : colorScheme.onSurface.toSoft,
     );
   }
 
