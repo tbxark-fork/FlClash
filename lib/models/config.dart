@@ -1,6 +1,5 @@
 // ignore_for_file: invalid_annotation_target
 
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:fl_clash/common/common.dart';

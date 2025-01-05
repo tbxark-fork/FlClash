@@ -24,6 +24,7 @@ class GlobalState {
   PageController? pageController;
   late Measure measure;
   DateTime? startTime;
+  final safeMessageOffsetNotifier = ValueNotifier(Offset.zero);
   final navigatorKey = GlobalKey<NavigatorState>();
   late AppController appController;
   GlobalKey<CommonScaffoldState> homeScaffoldKey = GlobalKey();

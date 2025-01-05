@@ -207,15 +207,17 @@ class ApplicationState extends State<Application> {
                     GlobalWidgetsLocalizations.delegate
                   ],
                   builder: (_, child) {
-                    return LayoutBuilder(
-                      builder: (_, container) {
-                        final appController = globalState.appController;
-                        final maxWidth = container.maxWidth;
-                        if (appController.appState.viewWidth != maxWidth) {
-                          globalState.appController.updateViewWidth(maxWidth);
-                        }
-                        return _buildPage(child!);
-                      },
+                    return MessageManager(
+                      child: LayoutBuilder(
+                        builder: (_, container) {
+                          final appController = globalState.appController;
+                          final maxWidth = container.maxWidth;
+                          if (appController.appState.viewWidth != maxWidth) {
+                            globalState.appController.updateViewWidth(maxWidth);
+                          }
+                          return _buildPage(child!);
+                        },
+                      ),
                     );
                   },
                   scrollBehavior: BaseScrollBehavior(),
