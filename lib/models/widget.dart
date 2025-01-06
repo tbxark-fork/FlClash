@@ -8,3 +8,11 @@ class ActivateState with _$ActivateState {
     required bool active,
   }) = _ActivateState;
 }
+
+@freezed
+class CommonMessage with _$CommonMessage {
+  const factory CommonMessage({
+    required String id,
+    required String text,
+  }) = _CommonMessage;
+}

@@ -142,3 +142,149 @@ abstract class _ActivateState implements ActivateState {
   _$$ActivateStateImplCopyWith<_$ActivateStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+/// @nodoc
+mixin _$CommonMessage {
+  String get id => throw _privateConstructorUsedError;
+  String get text => throw _privateConstructorUsedError;
+
+  /// Create a copy of CommonMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $CommonMessageCopyWith<CommonMessage> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CommonMessageCopyWith<$Res> {
+  factory $CommonMessageCopyWith(
+          CommonMessage value, $Res Function(CommonMessage) then) =
+      _$CommonMessageCopyWithImpl<$Res, CommonMessage>;
+  @useResult
+  $Res call({String id, String text});
+}
+
+/// @nodoc
+class _$CommonMessageCopyWithImpl<$Res, $Val extends CommonMessage>
+    implements $CommonMessageCopyWith<$Res> {
+  _$CommonMessageCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of CommonMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? text = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      text: null == text
+          ? _value.text
+          : text // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$CommonMessageImplCopyWith<$Res>
+    implements $CommonMessageCopyWith<$Res> {
+  factory _$$CommonMessageImplCopyWith(
+          _$CommonMessageImpl value, $Res Function(_$CommonMessageImpl) then) =
+      __$$CommonMessageImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String id, String text});
+}
+
+/// @nodoc
+class __$$CommonMessageImplCopyWithImpl<$Res>
+    extends _$CommonMessageCopyWithImpl<$Res, _$CommonMessageImpl>
+    implements _$$CommonMessageImplCopyWith<$Res> {
+  __$$CommonMessageImplCopyWithImpl(
+      _$CommonMessageImpl _value, $Res Function(_$CommonMessageImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of CommonMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? text = null,
+  }) {
+    return _then(_$CommonMessageImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      text: null == text
+          ? _value.text
+          : text // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$CommonMessageImpl implements _CommonMessage {
+  const _$CommonMessageImpl({required this.id, required this.text});
+
+  @override
+  final String id;
+  @override
+  final String text;
+
+  @override
+  String toString() {
+    return 'CommonMessage(id: $id, text: $text)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CommonMessageImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.text, text) || other.text == text));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, id, text);
+
+  /// Create a copy of CommonMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CommonMessageImplCopyWith<_$CommonMessageImpl> get copyWith =>
+      __$$CommonMessageImplCopyWithImpl<_$CommonMessageImpl>(this, _$identity);
+}
+
+abstract class _CommonMessage implements CommonMessage {
+  const factory _CommonMessage(
+      {required final String id,
+      required final String text}) = _$CommonMessageImpl;
+
+  @override
+  String get id;
+  @override
+  String get text;
+
+  /// Create a copy of CommonMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$CommonMessageImplCopyWith<_$CommonMessageImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
