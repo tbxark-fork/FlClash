@@ -22,6 +22,9 @@ class _MemoryInfoState extends State<MemoryInfo> {
   @override
   void initState() {
     super.initState();
+    clashCore.getMemory().then((memory) {
+      _memoryInfoStateNotifier.value = TrafficValue(value: memory);
+    });
     _updateMemoryData();
   }
 
@@ -32,7 +35,7 @@ class _MemoryInfoState extends State<MemoryInfo> {
   }
 
   _updateMemoryData() {
-    timer = Timer(Duration(seconds: 3), () async {
+    timer = Timer(Duration(seconds: 2), () async {
       final memory = await clashCore.getMemory();
       _memoryInfoStateNotifier.value = TrafficValue(value: memory);
       _updateMemoryData();
