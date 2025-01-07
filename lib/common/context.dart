@@ -7,7 +7,7 @@ extension BuildContextExtension on BuildContext {
     return findAncestorStateOfType<CommonScaffoldState>();
   }
 
-  showMessage(String text) {
+  showNotifier(String text) {
     return findAncestorStateOfType<MessageManagerState>()?.message(text);
   }
 

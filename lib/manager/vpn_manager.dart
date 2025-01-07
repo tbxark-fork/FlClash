@@ -28,7 +28,7 @@ class _VpnContainerState extends State<VpnManager> {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           final appFlowingState = globalState.appController.appFlowingState;
           if (appFlowingState.isStart) {
-            context.showMessage(
+            globalState.showNotifier(
               appLocalizations.vpnTip,
             );
           }

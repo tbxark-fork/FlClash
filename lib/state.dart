@@ -310,14 +310,13 @@ class GlobalState {
       final res = await futureFunction();
       return res;
     } catch (e) {
-      showMessage(
-        title: title ?? appLocalizations.tip,
-        message: TextSpan(
-          text: e.toString(),
-        ),
-      );
+      showNotifier(e.toString());
       return null;
     }
+  }
+
+  showNotifier(String text) {
+    navigatorKey.currentContext?.showNotifier(text);
   }
 
   openUrl(String url) {

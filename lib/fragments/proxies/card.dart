@@ -116,7 +116,7 @@ class ProxyCard extends StatelessWidget {
       await appController.changeProxyDebounce(groupName, nextProxyName);
       return;
     }
-    context.showMessage(
+    globalState.showNotifier(
       appLocalizations.notSelectedTip,
     );
   }
