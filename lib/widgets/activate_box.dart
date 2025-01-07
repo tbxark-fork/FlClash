@@ -1,6 +1,4 @@
-import 'package:fl_clash/models/models.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter/material.dart';
 
 class ActivateBox extends StatelessWidget {
   final Widget child;
@@ -14,20 +12,9 @@ class ActivateBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Provider(
-      create: (_) => ActivateState(
-        active: active,
-      ),
-      child: Selector<ActivateState, bool>(
-        builder: (_, active, child) {
-          return IgnorePointer(
-            ignoring: !active,
-            child: child!,
-          );
-        },
-        selector: (_, activate) => activate.active,
-        child: child,
-      ),
+    return IgnorePointer(
+      ignoring: !active,
+      child: child,
     );
   }
 }
