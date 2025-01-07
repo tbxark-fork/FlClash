@@ -147,6 +147,7 @@ abstract class _ActivateState implements ActivateState {
 mixin _$CommonMessage {
   String get id => throw _privateConstructorUsedError;
   String get text => throw _privateConstructorUsedError;
+  Duration get duration => throw _privateConstructorUsedError;
 
   /// Create a copy of CommonMessage
   /// with the given fields replaced by the non-null parameter values.
@@ -161,7 +162,7 @@ abstract class $CommonMessageCopyWith<$Res> {
           CommonMessage value, $Res Function(CommonMessage) then) =
       _$CommonMessageCopyWithImpl<$Res, CommonMessage>;
   @useResult
-  $Res call({String id, String text});
+  $Res call({String id, String text, Duration duration});
 }
 
 /// @nodoc
@@ -181,6 +182,7 @@ class _$CommonMessageCopyWithImpl<$Res, $Val extends CommonMessage>
   $Res call({
     Object? id = null,
     Object? text = null,
+    Object? duration = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -191,6 +193,10 @@ class _$CommonMessageCopyWithImpl<$Res, $Val extends CommonMessage>
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
               as String,
+      duration: null == duration
+          ? _value.duration
+          : duration // ignore: cast_nullable_to_non_nullable
+              as Duration,
     ) as $Val);
   }
 }
@@ -203,7 +209,7 @@ abstract class _$$CommonMessageImplCopyWith<$Res>
       __$$CommonMessageImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String text});
+  $Res call({String id, String text, Duration duration});
 }
 
 /// @nodoc
@@ -221,6 +227,7 @@ class __$$CommonMessageImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? text = null,
+    Object? duration = null,
   }) {
     return _then(_$CommonMessageImpl(
       id: null == id
@@ -231,6 +238,10 @@ class __$$CommonMessageImplCopyWithImpl<$Res>
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
               as String,
+      duration: null == duration
+          ? _value.duration
+          : duration // ignore: cast_nullable_to_non_nullable
+              as Duration,
     ));
   }
 }
@@ -238,16 +249,22 @@ class __$$CommonMessageImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$CommonMessageImpl implements _CommonMessage {
-  const _$CommonMessageImpl({required this.id, required this.text});
+  const _$CommonMessageImpl(
+      {required this.id,
+      required this.text,
+      this.duration = const Duration(seconds: 3)});
 
   @override
   final String id;
   @override
   final String text;
+  @override
+  @JsonKey()
+  final Duration duration;
 
   @override
   String toString() {
-    return 'CommonMessage(id: $id, text: $text)';
+    return 'CommonMessage(id: $id, text: $text, duration: $duration)';
   }
 
   @override
@@ -256,11 +273,13 @@ class _$CommonMessageImpl implements _CommonMessage {
         (other.runtimeType == runtimeType &&
             other is _$CommonMessageImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.text, text) || other.text == text));
+            (identical(other.text, text) || other.text == text) &&
+            (identical(other.duration, duration) ||
+                other.duration == duration));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, text);
+  int get hashCode => Object.hash(runtimeType, id, text, duration);
 
   /// Create a copy of CommonMessage
   /// with the given fields replaced by the non-null parameter values.
@@ -274,12 +293,15 @@ class _$CommonMessageImpl implements _CommonMessage {
 abstract class _CommonMessage implements CommonMessage {
   const factory _CommonMessage(
       {required final String id,
-      required final String text}) = _$CommonMessageImpl;
+      required final String text,
+      final Duration duration}) = _$CommonMessageImpl;
 
   @override
   String get id;
   @override
   String get text;
+  @override
+  Duration get duration;
 
   /// Create a copy of CommonMessage
   /// with the given fields replaced by the non-null parameter values.

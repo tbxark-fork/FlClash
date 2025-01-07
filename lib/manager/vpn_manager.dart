@@ -1,4 +1,5 @@
 import 'package:fl_clash/common/app_localizations.dart';
+import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/state.dart';
@@ -27,9 +28,8 @@ class _VpnContainerState extends State<VpnManager> {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           final appFlowingState = globalState.appController.appFlowingState;
           if (appFlowingState.isStart) {
-            globalState.showSnackBar(
-              context,
-              message: appLocalizations.vpnTip,
+            context.showMessage(
+              appLocalizations.vpnTip,
             );
           }
         });

@@ -427,10 +427,6 @@ class AppController {
     );
   }
 
-  showSnackBar(String message) {
-    globalState.showSnackBar(context, message: message);
-  }
-
   Future<bool> showDisclaimer() async {
     return await globalState.showCommonDialog<bool>(
           dismissible: false,

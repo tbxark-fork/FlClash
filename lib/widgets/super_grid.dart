@@ -160,8 +160,8 @@ class SuperGridState extends State<SuperGrid> with TickerProviderStateMixin {
       duration: Duration(milliseconds: 120),
     );
     _shakeAnimation = Tween<double>(
-      begin: -0.012,
-      end: 0.018,
+      begin: -0.006,
+      end: 0.008,
     ).animate(
       CurvedAnimation(
         parent: _shakeController,

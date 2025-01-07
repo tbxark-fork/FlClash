@@ -1,4 +1,5 @@
 import 'package:fl_clash/clash/clash.dart';
+import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/state.dart';
@@ -115,7 +116,7 @@ class _ClashContainerState extends State<ClashManager> with AppMessageListener {
   void onLog(Log log) {
     globalState.appController.appFlowingState.addLog(log);
     if (log.logLevel == LogLevel.error) {
-      globalState.appController.showSnackBar(log.payload ?? '');
+      context.showMessage(log.payload ?? '');
     }
     super.onLog(log);
   }

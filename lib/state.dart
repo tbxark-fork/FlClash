@@ -302,37 +302,6 @@ class GlobalState {
     }
   }
 
-  showSnackBar(
-    BuildContext context, {
-    required String message,
-    SnackBarAction? action,
-  }) {
-    final width = context.viewWidth;
-    EdgeInsets margin;
-    if (width < 600) {
-      margin = const EdgeInsets.only(
-        bottom: 16,
-        right: 16,
-        left: 16,
-      );
-    } else {
-      margin = EdgeInsets.only(
-        bottom: 16,
-        left: 16,
-        right: width - 316,
-      );
-    }
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        action: action,
-        content: Text(message),
-        behavior: SnackBarBehavior.floating,
-        duration: const Duration(milliseconds: 1500),
-        margin: margin,
-      ),
-    );
-  }
-
   Future<T?> safeRun<T>(
     FutureOr<T> Function() futureFunction, {
     String? title,
