@@ -53,8 +53,6 @@ class _DonutChartState extends State<DonutChart>
   void didUpdateWidget(DonutChart oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.data != widget.data) {
-      print(_oldData);
-      print(widget.data);
       _oldData = oldWidget.data;
       _animationController.forward(from: 0);
     }

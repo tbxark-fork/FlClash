@@ -1,13 +1,23 @@
+import 'package:fl_clash/common/common.dart';
 import 'package:flutter/material.dart';
 
 class BaseNavigator {
   static Future<T?> push<T>(BuildContext context, Widget child) async {
     return await Navigator.of(context).push<T>(
-      MaterialPageRoute(
+      CommonRoute(
         builder: (context) => child,
       ),
     );
   }
+}
+
+class CommonRoute<T> extends MaterialPageRoute<T> {
+  CommonRoute({
+    required super.builder,
+  });
+
+  @override
+  Duration get transitionDuration => Duration(milliseconds: 500);
 }
 
 final Animatable<Offset> _kRightMiddleTween = Tween<Offset>(
@@ -31,6 +41,7 @@ class CommonPageTransitionsBuilder extends PageTransitionsBuilder {
     Widget child,
   ) {
     return CommonPageTransition(
+      context: context,
       primaryRouteAnimation: animation,
       secondaryRouteAnimation: secondaryAnimation,
       linearTransition: false,
@@ -42,6 +53,7 @@ class CommonPageTransitionsBuilder extends PageTransitionsBuilder {
 class CommonPageTransition extends StatefulWidget {
   const CommonPageTransition({
     super.key,
+    required this.context,
     required this.primaryRouteAnimation,
     required this.secondaryRouteAnimation,
     required this.child,
@@ -53,6 +65,8 @@ class CommonPageTransition extends StatefulWidget {
   final Animation<double> primaryRouteAnimation;
 
   final Animation<double> secondaryRouteAnimation;
+
+  final BuildContext context;
 
   final bool linearTransition;
 
@@ -145,9 +159,20 @@ class _CommonPageTransitionState extends State<CommonPageTransition> {
     _secondaryPositionAnimation =
         (_secondaryPositionCurve ?? widget.secondaryRouteAnimation)
             .drive(_kMiddleLeftTween);
+    final theme = Theme.of(widget.context);
+    print(theme.colorScheme.surfaceContainer);
     _primaryShadowAnimation =
         (_primaryShadowCurve ?? widget.primaryRouteAnimation).drive(
-      _CommonEdgeShadowDecoration.kTween,
+      DecorationTween(
+        begin: const _CommonEdgeShadowDecoration(),
+        end: _CommonEdgeShadowDecoration(
+          <Color>[
+            theme.colorScheme.surfaceContainer
+                .blendLighten(widget.context, factor: 0.8),
+            Colors.transparent,
+          ],
+        ),
+      ),
     );
   }
 
@@ -173,16 +198,6 @@ class _CommonPageTransitionState extends State<CommonPageTransition> {
 
 class _CommonEdgeShadowDecoration extends Decoration {
   final List<Color>? _colors;
-
-  static DecorationTween kTween = DecorationTween(
-    begin: const _CommonEdgeShadowDecoration(), // No decoration initially.
-    end: const _CommonEdgeShadowDecoration(
-      <Color>[
-        Colors.black26,
-        Colors.transparent,
-      ],
-    ),
-  );
 
   const _CommonEdgeShadowDecoration([this._colors]);
 
