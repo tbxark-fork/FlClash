@@ -78,28 +78,38 @@ class _NetworkSpeedState extends State<NetworkSpeed> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Icon(
-                          Icons.upload,
+                        Text(
+                          appLocalizations.upload,
+                          style: context.textTheme.bodyMedium?.copyWith(
+                            color: context.colorScheme.onSurfaceVariant,
+                          ),
                         ),
                         SizedBox(
                           width: 4,
                         ),
                         Text(
                           "${_getLastTraffic(traffics).up}/s",
-                          style: context.textTheme.bodyMedium?.toLighter,
+                          style: context.textTheme.bodyMedium?.copyWith(
+                            color: context.colorScheme.onSurfaceVariant,
+                          ),
                         ),
                         SizedBox(
                           width: 16,
                         ),
-                        Icon(
-                          Icons.download,
+                        Text(
+                          appLocalizations.download,
+                          style: context.textTheme.bodyMedium?.copyWith(
+                            color: context.colorScheme.onSurfaceVariant,
+                          ),
                         ),
                         SizedBox(
                           width: 4,
                         ),
                         Text(
                           "${_getLastTraffic(traffics).down}/s",
-                          style: context.textTheme.bodyMedium?.toLighter,
+                          style: context.textTheme.bodyMedium?.copyWith(
+                            color: context.colorScheme.onSurfaceVariant,
+                          ),
                         ),
                       ],
                     ),
