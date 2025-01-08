@@ -53,6 +53,8 @@ class _DonutChartState extends State<DonutChart>
   void didUpdateWidget(DonutChart oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.data != widget.data) {
+      print(_oldData);
+      print(widget.data);
       _oldData = oldWidget.data;
       _animationController.forward(from: 0);
     }
@@ -88,16 +90,35 @@ class DonutChartPainter extends CustomPainter {
 
   DonutChartPainter(this.oldData, this.newData, this.progress);
 
+  double _logTransform(double value) {
+    const base = 10.0;
+    const minValue = 0.1;
+    if (value < minValue) return 0;
+    return log(value) / log(base) + 1;
+  }
+
+  double _expTransform(double value) {
+    const base = 10.0;
+    if (value <= 0) return 0;
+    return pow(base, value - 1).toDouble();
+  }
+
   List<DonutChartData> get interpolatedData {
     if (oldData.length != newData.length) return newData;
 
     final interpolatedData = List.generate(newData.length, (index) {
       final oldValue = oldData[index].value;
       final newValue = newData[index].value;
-      final interpolatedValue = oldValue + (newValue - oldValue) * progress;
+
+      final logOldValue = _logTransform(oldValue);
+      final logNewValue = _logTransform(newValue);
+      final interpolatedLogValue =
+          logOldValue + (logNewValue - logOldValue) * progress;
+
+      final interpolatedValue = _expTransform(interpolatedLogValue);
 
       return DonutChartData(
-        value: sqrt(interpolatedValue),
+        value: interpolatedValue,
         color: newData[index].color,
       );
     });
@@ -119,12 +140,15 @@ class DonutChartPainter extends CustomPainter {
       (sum, item) => sum + item.value,
     );
 
-    final availableAngle = 2 * pi - (data.length * gapAngle);
+    if (total <= 0) return;
 
+    final availableAngle = 2 * pi - (data.length * gapAngle);
     double startAngle = -pi / 2 + gapAngle / 2;
 
     for (final item in data) {
       final sweepAngle = availableAngle * (item.value / total);
+
+      if (sweepAngle <= 0) continue;
 
       final paint = Paint()
         ..style = PaintingStyle.stroke

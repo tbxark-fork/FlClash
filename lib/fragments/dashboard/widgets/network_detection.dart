@@ -35,11 +35,11 @@ class _NetworkDetectionState extends State<NetworkDetection> {
   }
 
   _startCheck() async {
+    await checkedCompleter?.future;
     if (cancelToken != null) {
       cancelToken!.cancel();
       cancelToken = null;
     }
-    await checkedCompleter?.future;
     debouncer.call(
       DebounceTag.checkIp,
       _checkIp,
