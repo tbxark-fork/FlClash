@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 extension ColorExtension on Color {
+
   Color get toLight {
     return withOpacity(0.8);
   }

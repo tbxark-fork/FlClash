@@ -188,7 +188,7 @@ class CommonCard extends StatelessWidget {
           ),
         ),
         iconColor: WidgetStatePropertyAll(context.colorScheme.primary),
-        iconSize: WidgetStateProperty.all(18),
+        iconSize: WidgetStateProperty.all(20),
         backgroundColor: backgroundColor ??
             WidgetStateProperty.resolveWith(
               (states) => getBackgroundColor(context, states),

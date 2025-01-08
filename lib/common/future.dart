@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:fl_clash/state.dart';
-
 extension CompleterExt<T> on Completer<T> {
   safeFuture({
     Duration? timeout,

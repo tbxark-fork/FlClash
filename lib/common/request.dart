@@ -74,16 +74,17 @@ class Request {
   final List<String> _ipInfoSources = [
     "https://ipwho.is/?fields=ip&output=csv",
     "https://ipinfo.io/ip",
-    "https://api.ip.sb/ip/",
     "https://ifconfig.me/ip/",
-    "https://icanhazip.com/",
   ];
 
   Future<IpInfo?> checkIp({CancelToken? cancelToken}) async {
     for (final source in _ipInfoSources) {
       try {
         final response = await _dio
-            .get<String>(source, cancelToken: cancelToken)
+            .get<String>(
+              source,
+              cancelToken: cancelToken,
+            )
             .timeout(httpTimeoutDuration);
         if (response.statusCode != 200 || response.data == null) {
           continue;
@@ -94,10 +95,10 @@ class Request {
         }
         return ipInfo;
       } catch (e) {
+        debugPrint("checkIp error ===> $e");
         if (e is DioException && e.type == DioExceptionType.cancel) {
           throw "cancelled";
         }
-        debugPrint("checkIp error ===> $e");
       }
     }
     return null;

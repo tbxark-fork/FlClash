@@ -101,9 +101,6 @@ class AppController {
       appFlowingState.traffics = [];
       appFlowingState.totalTraffic = Traffic();
       appFlowingState.runTime = null;
-      await Future.delayed(
-        Duration(milliseconds: 1000),
-      );
       addCheckIpNumDebounce();
     }
   }

@@ -27,20 +27,23 @@ class _NetworkDetectionState extends State<NetworkDetection> {
   bool? _preIsStart;
   Timer? _setTimeoutTimer;
   CancelToken? cancelToken;
+  Completer? checkedCompleter;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(
-          Duration(
-            milliseconds: 1000,
-          ), () {
-        if (_networkDetectionState.value.ipInfo == null) {
-          debouncer.call(DebounceTag.checkIp, _checkIp);
-        }
-      });
-    });
+  }
+
+  _startCheck() async {
+    if (cancelToken != null) {
+      cancelToken!.cancel();
+      cancelToken = null;
+    }
+    await checkedCompleter?.future;
+    debouncer.call(
+      DebounceTag.checkIp,
+      _checkIp,
+    );
   }
 
   _checkIp() async {
@@ -64,6 +67,12 @@ class _NetworkDetectionState extends State<NetworkDetection> {
     try {
       final ipInfo = await request.checkIp(cancelToken: cancelToken);
       if (ipInfo != null) {
+        checkedCompleter = Completer();
+        checkedCompleter?.complete(
+          Future.delayed(
+            Duration(milliseconds: 3000),
+          ),
+        );
         _networkDetectionState.value = _networkDetectionState.value.copyWith(
           isTesting: false,
           ipInfo: ipInfo,
@@ -107,7 +116,7 @@ class _NetworkDetectionState extends State<NetworkDetection> {
       },
       shouldRebuild: (prev, next) {
         if (prev != next) {
-          debouncer.call(DebounceTag.checkIp, _checkIp);
+          _startCheck();
         }
         return prev != next;
       },
@@ -166,7 +175,9 @@ class _NetworkDetectionState extends State<NetworkDetection> {
                               )
                             : Icon(
                                 Icons.network_check,
-                                color: Theme.of(context).colorScheme.primary,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurfaceVariant,
                               ),
                         const SizedBox(
                           width: 8,

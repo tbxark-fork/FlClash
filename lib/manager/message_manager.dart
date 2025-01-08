@@ -1,12 +1,9 @@
 import 'dart:async';
 
 import 'package:fl_clash/common/common.dart';
-import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/models/models.dart';
-import 'package:fl_clash/plugins/app.dart';
 import 'package:fl_clash/state.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class MessageManager extends StatefulWidget {
   final Widget child;
@@ -33,7 +30,7 @@ class MessageManagerState extends State<MessageManager>
   Completer? _animationCompleter;
   late Animation<Offset> _floatOffsetAnimation;
   late Animation<Offset> _commonOffsetAnimation;
-  final animationDuration = commonDuration * 1.5;
+  final animationDuration = commonDuration * 2;
 
   _initTransformState() {
     _floatMessageNotifier.value = null;
@@ -284,7 +281,7 @@ class _MessageItemWrapState extends State<_MessageItemWrap>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 200),
+      duration: commonDuration * 1.5,
     );
   }
 
