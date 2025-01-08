@@ -52,9 +52,9 @@ class TrafficUsage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final primaryColor =
-        context.colorScheme.surfaceContainer.blendDarken(context, factor: 0.3);
+        context.colorScheme.surfaceContainer.blendDarken(context, factor: 0.2);
     final secondaryColor =
-        context.colorScheme.primaryContainer.blendDarken(context, factor: 0.3);
+        context.colorScheme.primaryContainer.blendDarken(context, factor: 0.2);
     return SizedBox(
       height: getWidgetHeight(2),
       child: CommonCard(
