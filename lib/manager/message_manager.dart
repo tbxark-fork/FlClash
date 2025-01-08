@@ -140,23 +140,16 @@ class MessageManagerState extends State<MessageManager>
       borderRadius: BorderRadius.circular(8),
       color: context.colorScheme.secondaryFixedDim,
       clipBehavior: Clip.antiAlias,
-      child: Selector<AppState, ViewMode>(
-        builder: (_, viewMode, __) {
-          return Padding(
-            padding: viewMode == ViewMode.mobile
-                ? EdgeInsets.all(8)
-                : EdgeInsets.all(16),
-            child: Text(
-              message.text,
-              style: context.textTheme.bodyMedium?.copyWith(
-                color: context.colorScheme.onSecondaryFixedVariant,
-              ),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-          );
-        },
-        selector: (_, appState) => appState.viewMode,
+      child: Padding(
+        padding: EdgeInsets.all(16),
+        child: Text(
+          message.text,
+          style: context.textTheme.bodyMedium?.copyWith(
+            color: context.colorScheme.onSecondaryFixedVariant,
+          ),
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+        ),
       ),
     );
   }

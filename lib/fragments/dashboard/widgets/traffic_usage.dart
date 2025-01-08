@@ -51,6 +51,10 @@ class TrafficUsage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final primaryColor =
+        context.colorScheme.surfaceContainer.blendDarken(context, factor: 0.3);
+    final secondaryColor =
+        context.colorScheme.primaryContainer.blendDarken(context, factor: 0.3);
     return SizedBox(
       height: getWidgetHeight(2),
       child: CommonCard(
@@ -88,11 +92,11 @@ class TrafficUsage extends StatelessWidget {
                               data: [
                                 DonutChartData(
                                   value: upTotalTrafficValue.value.toDouble(),
-                                  color: context.colorScheme.primary,
+                                  color: primaryColor,
                                 ),
                                 DonutChartData(
                                   value: downTotalTrafficValue.value.toDouble(),
-                                  color: context.colorScheme.tertiary,
+                                  color: secondaryColor,
                                 ),
                               ],
                             ),
@@ -134,7 +138,7 @@ class TrafficUsage extends StatelessWidget {
                                           width: 20,
                                           height: 8,
                                           decoration: BoxDecoration(
-                                            color: context.colorScheme.primary,
+                                            color: primaryColor,
                                             borderRadius:
                                                 BorderRadius.circular(2),
                                           ),
@@ -160,7 +164,7 @@ class TrafficUsage extends StatelessWidget {
                                           width: 20,
                                           height: 8,
                                           decoration: BoxDecoration(
-                                            color: context.colorScheme.tertiary,
+                                            color: secondaryColor,
                                             borderRadius:
                                                 BorderRadius.circular(2),
                                           ),
@@ -189,7 +193,7 @@ class TrafficUsage extends StatelessWidget {
                     context,
                     Icon(
                       Icons.arrow_upward,
-                      color: context.colorScheme.primary,
+                      color: primaryColor,
                       size: 14,
                     ),
                     upTotalTrafficValue,
@@ -201,7 +205,7 @@ class TrafficUsage extends StatelessWidget {
                     context,
                     Icon(
                       Icons.arrow_downward,
-                      color: context.colorScheme.tertiary,
+                      color: secondaryColor,
                       size: 14,
                     ),
                     downTotalTrafficValue,
