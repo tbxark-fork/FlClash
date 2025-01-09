@@ -1,8 +1,8 @@
 import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/state.dart';
+import 'package:fl_clash/widgets/fade_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 
 class CommonScaffold extends StatefulWidget {
   final Widget body;
@@ -34,14 +34,11 @@ class CommonScaffold extends StatefulWidget {
           body: body,
           title: title,
           automaticallyImplyLeading: false,
-          leading: SizedBox(
-            height: kToolbarHeight,
-            child: IconButton(
-              icon: const BackButtonIcon(),
-              onPressed: () {
-                onBack();
-              },
-            ),
+          leading: IconButton(
+            icon: const BackButtonIcon(),
+            onPressed: () {
+              onBack();
+            },
           ),
         );
 
@@ -169,7 +166,9 @@ class CommonScaffoldState extends State<CommonScaffold> {
       floatingActionButton: ValueListenableBuilder<Widget?>(
         valueListenable: _floatingActionButton,
         builder: (_, value, __) {
-          return value ?? Container();
+          return FadeScaleBox(
+            child: value ?? SizedBox(),
+          );
         },
       ),
       bottomNavigationBar: widget.bottomNavigationBar,
