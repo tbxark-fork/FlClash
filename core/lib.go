@@ -8,7 +8,6 @@ package main
 import "C"
 import (
 	bridge "core/dart-bridge"
-	"runtime"
 	"unsafe"
 )
 
@@ -73,7 +72,6 @@ func updateConfig(s *C.char, port C.longlong) {
 	bytes := []byte(C.GoString(s))
 	go func() {
 		bridge.SendToPort(i, handleUpdateConfig(bytes))
-		runtime.GC()
 	}()
 }
 
