@@ -107,7 +107,6 @@ class CommonScaffoldState extends State<CommonScaffold> {
   @override
   Widget build(BuildContext context) {
     final scaffold = Scaffold(
-      resizeToAvoidBottomInset: true,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
         child: Stack(
@@ -117,19 +116,19 @@ class CommonScaffoldState extends State<CommonScaffold> {
               valueListenable: _actions,
               builder: (_, actions, __) {
                 final realActions =
-                    actions.isNotEmpty ? actions : widget.actions ?? [];
+                actions.isNotEmpty ? actions : widget.actions ?? [];
                 return AppBar(
                   centerTitle: false,
                   systemOverlayStyle: SystemUiOverlayStyle(
                     statusBarColor: Colors.transparent,
                     statusBarIconBrightness:
-                        Theme.of(context).brightness == Brightness.dark
-                            ? Brightness.light
-                            : Brightness.dark,
+                    Theme.of(context).brightness == Brightness.dark
+                        ? Brightness.light
+                        : Brightness.dark,
                     systemNavigationBarIconBrightness:
-                        Theme.of(context).brightness == Brightness.dark
-                            ? Brightness.light
-                            : Brightness.dark,
+                    Theme.of(context).brightness == Brightness.dark
+                        ? Brightness.light
+                        : Brightness.dark,
                     systemNavigationBarColor: widget.bottomNavigationBar != null
                         ? context.colorScheme.surfaceContainer
                         : context.colorScheme.surface,
