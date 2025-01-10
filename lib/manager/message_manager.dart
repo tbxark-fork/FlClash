@@ -138,13 +138,13 @@ class MessageManagerState extends State<MessageManager>
       color: context.colorScheme.secondaryFixedDim,
       clipBehavior: Clip.antiAlias,
       child: Padding(
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.symmetric(vertical: 12, horizontal: 15),
         child: Text(
           message.text,
           style: context.textTheme.bodyMedium?.copyWith(
             color: context.colorScheme.onSecondaryFixedVariant,
           ),
-          maxLines: 2,
+          maxLines: 5,
           overflow: TextOverflow.ellipsis,
         ),
       ),
