@@ -351,12 +351,6 @@ func applyConfig(rawConfig *config.RawConfig) error {
 	if configParams.IsPatch {
 		patchConfig()
 	} else {
-		if r := resolver.DefaultResolver; r != nil {
-			r.ClearCache()
-		}
-		if r := resolver.SystemResolver; r != nil {
-			r.ClearCache()
-		}
 		hub.ApplyConfig(currentConfig)
 		patchSelectGroup()
 	}
