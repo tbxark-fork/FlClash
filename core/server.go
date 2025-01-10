@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net"
+	"runtime"
 	"strconv"
 )
 
@@ -68,6 +69,7 @@ func handleAction(action *Action) {
 	case updateConfigMethod:
 		data := []byte(action.Data.(string))
 		action.callback(handleUpdateConfig(data))
+		runtime.GC()
 		return
 	case getProxiesMethod:
 		action.callback(handleGetProxies())

@@ -25,7 +25,6 @@ import (
 	"github.com/samber/lo"
 	"os"
 	"path/filepath"
-	"runtime"
 	"strings"
 	"sync"
 )
@@ -353,7 +352,6 @@ func applyConfig(rawConfig *config.RawConfig) error {
 		patchConfig()
 	} else {
 		handleCloseConnectionsUnLock()
-		runtime.GC()
 		hub.ApplyConfig(currentConfig)
 		patchSelectGroup()
 	}
