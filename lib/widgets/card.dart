@@ -131,10 +131,13 @@ class CommonCard extends StatelessWidget {
   }
 
   Color? getBackgroundColor(BuildContext context, Set<WidgetState> states) {
-    if (type == CommonCardType.filled) {
-      return context.colorScheme.surfaceContainer;
-    }
     final colorScheme = context.colorScheme;
+    if (type == CommonCardType.filled) {
+      if (isSelected) {
+        return colorScheme.secondaryContainer.opacity80;
+      }
+      return colorScheme.surfaceContainer;
+    }
     if (isSelected) {
       return colorScheme.secondaryContainer;
     }
@@ -182,7 +185,7 @@ class CommonCard extends StatelessWidget {
       style: ButtonStyle(
         padding: const WidgetStatePropertyAll(EdgeInsets.zero),
         shape: WidgetStatePropertyAll(
-          RoundedRectangleBorder(
+          RoundedSuperellipseBorder(
             borderRadius: BorderRadius.circular(radius),
           ),
         ),

@@ -1,3 +1,29 @@
+## v0.8.86
+
+- Fix windows tun issues
+
+- Optimize android get system dns
+
+- Optimize more details
+
+- Update changelog
+
+## v0.8.85
+
+- Support override script
+
+- Support proxies search
+
+- Support svg display
+
+- Optimize config persistence
+
+- Add some scenes auto close connections
+
+- Update core
+
+- Optimize more details
+
 ## v0.8.84
 
 - Fix windows service verify issues
