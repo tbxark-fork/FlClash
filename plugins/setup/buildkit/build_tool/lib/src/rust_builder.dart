@@ -4,6 +4,7 @@ import 'package:logging/logging.dart';
 import 'package:path/path.dart' as p;
 
 import 'build_cache.dart';
+import 'error.dart';
 import 'fingerprint.dart';
 import 'logging.dart';
 import 'options.dart';
@@ -11,6 +12,19 @@ import 'target.dart';
 import 'util.dart';
 
 final _log = Logger('rust_builder');
+
+String rustTriple(Target target) {
+  final arch = switch (target.goarch) {
+    'amd64' => 'x86_64',
+    'arm64' => 'aarch64',
+    _ => throw BuildException('No Rust target for ${target.goarch}'),
+  };
+  return switch (target.goos) {
+    'windows' => '$arch-pc-windows-msvc',
+    'linux' => '$arch-unknown-linux-gnu',
+    _ => throw BuildException('No Rust target for ${target.goos}'),
+  };
+}
 
 class RustBuilder {
   final String rootDir;
@@ -34,7 +48,14 @@ class RustBuilder {
     bool force = false,
     Future<void> Function()? beforeBuild,
   }) async {
-    final args = ['build', '--features', 'windows-service', '--release'];
+    final triple = rustTriple(target);
+    final args = [
+      'build',
+      '--target',
+      triple,
+      if (target.goos == 'windows') ...['--features', 'windows-service'],
+      '--release',
+    ];
     final env = {
       'CORE_SHA256': coreSha256,
       'CORE_NAME': '${config.coreName}${target.executableExtension}',
@@ -43,6 +64,7 @@ class RustBuilder {
     final srcPath = p.join(
       _helperPath,
       'target',
+      triple,
       'release',
       'helper${target.executableExtension}',
     );
@@ -90,27 +112,20 @@ class RustBuilder {
   }) async {
     final builder = FingerprintBuilder(rootDir: rootDir)
       ..addValue('cache_schema', BuildCache.schemaVersion)
-      ..addValue('kind', 'windows-helper')
-      ..addValue('target', {
-        'goos': target.goos,
-        'goarch': target.goarch,
-      })
+      ..addValue('kind', 'helper')
+      ..addValue('target', {'goos': target.goos, 'goarch': target.goarch})
       ..addValue('arguments', args)
       ..addValue('core_sha256', coreSha256)
       ..addValue('environment', _rustEnvironment())
       ..addValue('config', config.toFingerprintMap());
 
-    final cargoVersion = runCommand(
-      'cargo',
-      ['--version'],
-      workingDirectory: _helperPath,
-    );
+    final cargoVersion = runCommand('cargo', [
+      '--version',
+    ], workingDirectory: _helperPath);
     builder.addValue('cargo_version', (cargoVersion.stdout as String).trim());
-    final rustVersion = runCommand(
-      'rustc',
-      ['-Vv'],
-      workingDirectory: _helperPath,
-    );
+    final rustVersion = runCommand('rustc', [
+      '-Vv',
+    ], workingDirectory: _helperPath);
     builder.addValue('rustc_version', (rustVersion.stdout as String).trim());
 
     final inputs = collectFiles(

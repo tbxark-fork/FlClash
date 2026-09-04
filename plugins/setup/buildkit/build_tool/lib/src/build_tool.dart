@@ -133,28 +133,62 @@ class BuildLinuxCommand extends BuildCommand {
     final config = BuildConfig.load(rootDir: _rootDir);
 
     final arch = archName ?? await _hostGoArch();
-    final targets =
-        Target.forPlatform('linux').where((t) => t.goarch == arch).toList();
+    final targets = Target.forPlatform(
+      'linux',
+    ).where((t) => t.goarch == arch).toList();
 
     if (targets.isEmpty) {
       throw BuildException('Invalid arch: $arch');
     }
 
-    final cache = BuildCache(rootDir: _rootDir);
-    final notice = BuildNotice();
-    final builder = GoBuilder(
-      rootDir: _rootDir,
-      config: config,
-      cache: cache,
-      notice: notice,
-    );
-    final results = await builder.buildAll(targets, force: force);
+    await _buildCoreAndHelper(config: config, targets: targets, force: force);
+  }
+}
 
-    if (results.any((result) => result.rebuilt)) {
-      _log.info(
-        'Build complete: ${results.map((result) => result.primaryOutput)}',
-      );
-    }
+/// The Helper pins the Core's SHA256 at build time, so Core, Helper and the
+/// manifest the app reads have to be produced together.
+Future<void> _buildCoreAndHelper({
+  required BuildConfig config,
+  required List<Target> targets,
+  required bool force,
+  Future<void> Function()? beforeHelperBuild,
+}) async {
+  final cache = BuildCache(rootDir: _rootDir);
+  final notice = BuildNotice();
+  final goBuilder = GoBuilder(
+    rootDir: _rootDir,
+    config: config,
+    cache: cache,
+    notice: notice,
+  );
+  final coreResults = await goBuilder.buildAll(targets, force: force);
+  final corePaths = coreResults.map((result) => result.primaryOutput).toList();
+  final rustBuilder = RustBuilder(
+    rootDir: _rootDir,
+    config: config,
+    cache: cache,
+    notice: notice,
+  );
+  final coreSha256 = await calcSha256(corePaths.first);
+  final helperResult = await rustBuilder.build(
+    targets.first,
+    coreSha256,
+    force: force,
+    beforeBuild: beforeHelperBuild,
+  );
+
+  writeCoreManifest(
+    path: p.join(
+      _rootDir,
+      config.outputDir,
+      targets.first.platformDir,
+      coreManifestName,
+    ),
+    coreSha256: coreSha256,
+  );
+
+  if (helperResult.rebuilt || coreResults.any((result) => result.rebuilt)) {
+    _log.info('Build complete: $corePaths');
   }
 }
 
@@ -180,36 +214,19 @@ class BuildWindowsCommand extends BuildCommand {
     final config = BuildConfig.load(rootDir: _rootDir);
 
     final arch = archName ?? await _hostGoArch();
-    final targets =
-        Target.forPlatform('windows').where((t) => t.goarch == arch).toList();
+    final targets = Target.forPlatform(
+      'windows',
+    ).where((t) => t.goarch == arch).toList();
 
     if (targets.isEmpty) {
       throw BuildException('Invalid arch: $arch');
     }
 
-    final cache = BuildCache(rootDir: _rootDir);
-    final notice = BuildNotice();
-    final goBuilder = GoBuilder(
-      rootDir: _rootDir,
+    await _buildCoreAndHelper(
       config: config,
-      cache: cache,
-      notice: notice,
-    );
-    final coreResults = await goBuilder.buildAll(targets, force: force);
-    final corePaths =
-        coreResults.map((result) => result.primaryOutput).toList();
-    final rustBuilder = RustBuilder(
-      rootDir: _rootDir,
-      config: config,
-      cache: cache,
-      notice: notice,
-    );
-    final coreSha256 = await calcSha256(corePaths.first);
-    final helperResult = await rustBuilder.build(
-      targets.first,
-      coreSha256,
+      targets: targets,
       force: force,
-      beforeBuild: debug
+      beforeHelperBuild: debug
           ? () async {
               await Process.run('taskkill', [
                 '/F',
@@ -219,20 +236,6 @@ class BuildWindowsCommand extends BuildCommand {
             }
           : null,
     );
-
-    writeCoreManifest(
-      path: p.join(
-        _rootDir,
-        config.outputDir,
-        targets.first.platformDir,
-        coreManifestName,
-      ),
-      coreSha256: coreSha256,
-    );
-
-    if (helperResult.rebuilt || coreResults.any((result) => result.rebuilt)) {
-      _log.info('Build complete: $corePaths');
-    }
   }
 }
 
@@ -257,8 +260,9 @@ class BuildMacosCommand extends BuildCommand {
     final config = BuildConfig.load(rootDir: _rootDir);
 
     final arch = archName ?? await _hostGoArch();
-    final targets =
-        Target.forPlatform('darwin').where((t) => t.goarch == arch).toList();
+    final targets = Target.forPlatform(
+      'darwin',
+    ).where((t) => t.goarch == arch).toList();
 
     if (targets.isEmpty) {
       throw BuildException('Invalid arch: $arch');
