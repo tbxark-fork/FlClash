@@ -154,12 +154,43 @@ abstract class Proxy with _$Proxy {
 @freezed
 abstract class CustomOverwriteDate with _$CustomOverwriteDate {
   const factory CustomOverwriteDate({
-    @Default([]) List<Proxy> proxies,
+    @Default(false) bool loaded,
+    @Default([]) List<String> proxyNames,
+    @Default({}) Map<String, String> proxyTypes,
     @Default([]) List<ProxyGroup> proxyGroups,
     @Default({}) Set<String> proxyProviders,
     @Default({}) Set<String> ruleTargets,
     @Default({}) Set<String> subRules,
   }) = _CustomOverwriteDate;
+}
+
+@freezed
+abstract class CustomOverwriteSelectorState
+    with _$CustomOverwriteSelectorState {
+  const factory CustomOverwriteSelectorState({
+    required bool loaded,
+    required List<Proxy> proxies,
+    required List<String> subRules,
+    required List<String> proxyProviders,
+  }) = _CustomOverwriteSelectorState;
+}
+
+@freezed
+abstract class RuleTargetsSelectorState with _$RuleTargetsSelectorState {
+  const factory RuleTargetsSelectorState({
+    required bool loaded,
+    required Set<String> ruleTargets,
+    required Set<String> subRules,
+  }) = _RuleTargetsSelectorState;
+}
+
+@freezed
+abstract class OverwriteIncludeSelectorState
+    with _$OverwriteIncludeSelectorState {
+  const factory OverwriteIncludeSelectorState({
+    required bool includeAll,
+    required List<String> names,
+  }) = _OverwriteIncludeSelectorState;
 }
 
 @freezed
@@ -230,19 +261,22 @@ abstract class Tun with _$Tun {
     if (json == null) {
       return defaultTun;
     }
-    try {
-      return Tun.fromJson(json);
-    } catch (_) {
-      return defaultTun;
-    }
+    return decodeOrRestoreDefault(
+      'tun config',
+      () => Tun.fromJson(json),
+      () => defaultTun,
+    );
   }
 }
 
 extension TunExt on Tun {
+  List<String> resolveRouteAddress(RouteMode routeMode) =>
+      routeMode == RouteMode.bypassPrivate
+      ? defaultBypassPrivateRouteAddress
+      : routeAddress;
+
   Tun getRealTun(RouteMode routeMode) {
-    final mRouteAddress = routeMode == RouteMode.bypassPrivate
-        ? defaultBypassPrivateRouteAddress
-        : routeAddress;
+    final mRouteAddress = resolveRouteAddress(routeMode);
     return switch (system.isDesktop) {
       true => copyWith(autoRoute: true, routeAddress: []),
       false => copyWith(
@@ -311,11 +345,11 @@ abstract class Dns with _$Dns {
   factory Dns.fromJson(Map<String, Object?> json) => _$DnsFromJson(json);
 
   factory Dns.safeDnsFromJson(Map<String, Object?> json) {
-    try {
-      return Dns.fromJson(json);
-    } catch (_) {
-      return const Dns();
-    }
+    return decodeOrRestoreDefault(
+      'dns config',
+      () => Dns.fromJson(json),
+      () => const Dns(),
+    );
   }
 }
 
@@ -359,26 +393,41 @@ abstract class Rule with _$Rule {
         )
         .map((item) => item.trim())
         .toList();
+    if (shortSplits.isEmpty) {
+      return Rule(
+        id: id,
+        ruleAction: RuleAction.DOMAIN,
+        ruleTarget: RuleTarget.DIRECT.name,
+      );
+    }
     final ruleAction = RuleAction.values.firstWhere(
       (item) => item.value == shortSplits.first,
       orElse: () => RuleAction.DOMAIN,
     );
+    // Every action except MATCH carries a payload before the target, so a
+    // two-field payload rule is read as payload-only rather than target-only.
+    final hasPayload = ruleAction != RuleAction.MATCH;
+    final payload = hasPayload && shortSplits.length > 1
+        ? shortSplits[1]
+        : null;
+    final target = shortSplits.length > (hasPayload ? 2 : 1)
+        ? shortSplits.last
+        : null;
+
     String? subRule;
     String? ruleTarget;
-
     if (ruleAction == RuleAction.SUB_RULE) {
-      subRule = shortSplits.last;
+      subRule = target;
     } else {
-      ruleTarget = shortSplits.last;
+      ruleTarget = target;
     }
 
     String? content;
     String? ruleProvider;
-
     if (ruleAction == RuleAction.RULE_SET) {
-      ruleProvider = shortSplits[1];
+      ruleProvider = payload;
     } else {
-      content = shortSplits[1];
+      content = payload;
     }
 
     return Rule(
@@ -405,9 +454,10 @@ extension RuleExt on Rule {
   }
 
   String? get realContent {
-    return switch (ruleAction == RuleAction.RULE_SET) {
-      true => ruleProvider,
-      false => content,
+    return switch (ruleAction) {
+      RuleAction.MATCH => null,
+      RuleAction.RULE_SET => ruleProvider,
+      _ => content,
     };
   }
 
@@ -426,10 +476,12 @@ extension RuleExt on Rule {
   }
 
   String get rawValue {
+    final content = realContent;
+    final target = realTarget;
     return [
       ruleAction.value,
-      realContent,
-      realTarget,
+      if (content?.isNotEmpty == true) content!,
+      if (target?.isNotEmpty == true) target!,
       if (ruleAction.hasParams) ...[
         if (src) 'src',
         if (noResolve) 'no-resolve',
@@ -507,6 +559,13 @@ abstract class PatchClashConfig with _$PatchClashConfig {
       unknownEnumValue: FindProcessMode.always,
     )
     FindProcessMode findProcessMode,
+    @Default(InterfaceNameMode.clear)
+    @JsonKey(
+      name: 'interface-name-mode',
+      unknownEnumValue: InterfaceNameMode.clear,
+    )
+    InterfaceNameMode interfaceNameMode,
+    @Default('') @JsonKey(name: 'interface-name') String interfaceName,
     @Default(defaultKeepAliveInterval)
     @JsonKey(name: 'keep-alive-interval')
     int keepAliveInterval,
@@ -540,10 +599,10 @@ abstract class PatchClashConfig with _$PatchClashConfig {
     if (json == null) {
       return defaultClashConfig;
     }
-    try {
-      return PatchClashConfig.fromJson(json);
-    } catch (_) {
-      return defaultClashConfig;
-    }
+    return decodeOrRestoreDefault(
+      'clash config',
+      () => PatchClashConfig.fromJson(json),
+      () => defaultClashConfig,
+    );
   }
 }
